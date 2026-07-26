@@ -1,0 +1,41 @@
+# FILE: /nginx.conf.snippet
+# -------------------------------------------------------------------
+# aaPanel → Website → panel site → Config માં આ block paste કરો.
+# ધ્યાન રાખો: root તમારા webroot પર point કરે, અને PHP-FPM socket
+# તમારા PHP 8.2 version પ્રમાણે હોય.
+# -------------------------------------------------------------------
+
+# root  /www/wwwroot/panel.akdwk.in;
+index index.php;
+
+# Front controller routing.
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+
+location ~ \.php$ {
+    fastcgi_pass unix:/tmp/php-cgi-82.sock;   # aaPanel PHP 8.2 socket
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
+
+# Block sensitive directories & dotfiles.
+location ~ ^/(config|app|storage|database|vendor-local|cron)/ {
+    deny all;
+    return 403;
+}
+location ~ /\.(?!well-known).* {
+    deny all;
+    return 403;
+}
+location = /.env {
+    deny all;
+    return 403;
+}
+
+# Static assets — cache long.
+location /public/assets/ {
+    expires 30d;
+    add_header Cache-Control "public, immutable";
+}
