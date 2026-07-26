@@ -300,10 +300,11 @@ if (!function_exists('setting_set')) {
 
 if (!function_exists('money')) {
     // Format an amount with the configured currency symbol (₹1,234.50).
-    function money(float|int|string $amount, ?string $symbol = null): string
+    // NULL-tolerant: SQL SUM()/AVG() return null on empty sets.
+    function money(float|int|string|null $amount, ?string $symbol = null): string
     {
         $symbol ??= (string) settings('general.currency_symbol', config('app.currency_symbol', '₹'));
-        return $symbol . number_format((float) $amount, 2);
+        return $symbol . number_format((float) ($amount ?? 0), 2);
     }
 }
 
@@ -326,10 +327,10 @@ if (!function_exists('gst_split')) {
 }
 
 if (!function_exists('format_bytes')) {
-    function format_bytes(int|float $bytes, int $precision = 2): string
+    function format_bytes(int|float|null $bytes, int $precision = 2): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        $bytes = max($bytes, 0);
+        $bytes = max($bytes ?? 0, 0);
         $pow = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
         $pow = min($pow, count($units) - 1);
         return round($bytes / (1024 ** $pow), $precision) . ' ' . $units[$pow];
@@ -337,8 +338,9 @@ if (!function_exists('format_bytes')) {
 }
 
 if (!function_exists('format_mb')) {
-    function format_mb(int|float $mb): string
+    function format_mb(int|float|null $mb): string
     {
+        $mb ??= 0;
         return $mb <= 0 ? 'Unlimited' : format_bytes($mb * 1024 * 1024);
     }
 }

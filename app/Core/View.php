@@ -40,9 +40,21 @@ class View
     {
         // Fresh section state per top-level render (View is a singleton).
         $this->sections = [];
+        $this->sectionStack = [];
         $this->layout = null;
 
-        $content = $this->renderFile($template, $data);
+        // Remember buffer depth so a throwing template can't leak partial
+        // HTML into the response (unclosed section() buffers).
+        $obDepth = ob_get_level();
+        try {
+            $content = $this->renderFile($template, $data);
+        } catch (\Throwable $e) {
+            while (ob_get_level() > $obDepth) {
+                ob_end_clean();
+            }
+            $this->sectionStack = [];
+            throw $e;
+        }
 
         // If the template called extend(), wrap it in the layout. Two content
         // conventions are supported and both work:
@@ -56,7 +68,14 @@ class View
             if (!isset($this->sections['content'])) {
                 $this->sections['content'] = $content;
             }
-            $content = $this->renderFile($layout, $data);
+            try {
+                $content = $this->renderFile($layout, $data);
+            } catch (\Throwable $e) {
+                while (ob_get_level() > $obDepth) {
+                    ob_end_clean();
+                }
+                throw $e;
+            }
         }
         return $content;
     }

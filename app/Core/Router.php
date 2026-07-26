@@ -130,7 +130,14 @@ class Router
                 $methodMatchedButNotUri = true;
                 continue;
             }
-            return $this->runRoute($route, $request, $params);
+            // Turn abort()/authorize()/CSRF HttpExceptions into real responses
+            // so controllers can abort(403|404|419) and still get a proper page.
+            try {
+                return $this->runRoute($route, $request, $params);
+            } catch (HttpException $e) {
+                return $this->errorResponse($request, $e->getStatusCode(), $e->getMessage())
+                    ->withHeaders($e->getHeaders());
+            }
         }
 
         if ($methodMatchedButNotUri) {
@@ -214,9 +221,38 @@ class Router
     protected function errorResponse(Request $request, int $code, string $message): Response
     {
         if ($request->wantsJson()) {
-            return Response::json(['error' => $message], $code);
+            // A validation abort carries a JSON body already — pass it through.
+            $decoded = json_decode($message, true);
+            return Response::json(
+                is_array($decoded) ? $decoded : ['error' => $message ?: 'Error'],
+                $code
+            );
         }
-        $body = "<h1>{$code}</h1><p>" . e($message) . '</p>';
+        // Prefer a styled error view when one exists for this status code.
+        $template = 'errors.' . $code;
+        if (view_exists($template)) {
+            try {
+                return Response::view($template, ['message' => $message], $code);
+            } catch (\Throwable) {
+                // Fall through to the inline body below.
+            }
+        }
+        $labels = [
+            403 => 'પ્રવેશ નથી',
+            404 => 'પેજ મળ્યું નહીં',
+            405 => 'Method Not Allowed',
+            419 => 'સુરક્ષા ટોકન સમાપ્ત',
+            429 => 'ઘણી બધી વિનંતીઓ',
+        ];
+        $title = $labels[$code] ?? 'ભૂલ';
+        $body = '<!doctype html><meta charset="utf-8">'
+            . '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            . '<title>' . $code . ' — ' . e($title) . '</title>'
+            . '<div style="font-family:system-ui,sans-serif;text-align:center;padding:60px 20px">'
+            . '<h1 style="font-size:3rem;margin:0">' . $code . '</h1>'
+            . '<h2 style="font-weight:500">' . e($title) . '</h2>'
+            . ($message !== '' ? '<p style="color:#64748b">' . e($message) . '</p>' : '')
+            . '<p><a href="/" style="color:#2563eb">← હોમ પર જાઓ</a></p></div>';
         return Response::make($body, $code);
     }
 
