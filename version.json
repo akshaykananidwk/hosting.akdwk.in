@@ -1,7 +1,7 @@
 {
     "name": "AK Cloud",
-    "version": "0.1.0",
-    "build": "step0",
+    "version": "1.0.0",
+    "build": "full",
     "codename": "aaPanel Edition",
     "released_at": "2026-07-26",
     "min_php": "8.2",
