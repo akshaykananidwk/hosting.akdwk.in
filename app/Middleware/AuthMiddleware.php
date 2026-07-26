@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Middleware/AuthMiddleware.php
 // -------------------------------------------------------------------
-// Logged-in users only. Guest → login પર redirect (અથવા JSON 401).
+// Logged-in users only. Guests are redirected to login (or JSON 401).
 // -------------------------------------------------------------------
 
 namespace App\Middleware;

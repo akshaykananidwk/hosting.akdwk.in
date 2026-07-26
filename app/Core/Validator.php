@@ -2,7 +2,7 @@
 // FILE: /app/Core/Validator.php
 // -------------------------------------------------------------------
 // Input validation engine. Rules pipe-separated: 'required|email|max:191'.
-// DB rules (unique/exists) prepared-statement થી ચાલે.
+// DB rules (unique/exists) run through prepared statements.
 // -------------------------------------------------------------------
 
 namespace App\Core;
@@ -16,26 +16,26 @@ class Validator
     protected array $validated = [];
 
     protected array $defaultMessages = [
-        'required'  => ':field ફરજિયાત છે.',
-        'email'     => ':field માન્ય ઈમેલ હોવું જોઈએ.',
-        'numeric'   => ':field સંખ્યા હોવી જોઈએ.',
-        'integer'   => ':field પૂર્ણાંક હોવો જોઈએ.',
-        'min'       => ':field ઓછામાં ઓછું :param હોવું જોઈએ.',
-        'max'       => ':field વધુમાં વધુ :param હોવું જોઈએ.',
-        'between'   => ':field :param0 થી :param1 ની વચ્ચે હોવું જોઈએ.',
-        'in'        => ':field ની કિંમત માન્ય નથી.',
-        'same'      => ':field અને :param મેળ ખાતા નથી.',
-        'confirmed' => ':field confirmation મેળ ખાતું નથી.',
-        'regex'     => ':field નું format ખોટું છે.',
-        'url'       => ':field માન્ય URL હોવું જોઈએ.',
-        'boolean'   => ':field true/false હોવું જોઈએ.',
-        'date'      => ':field માન્ય તારીખ હોવી જોઈએ.',
-        'alpha'     => ':field માં ફક્ત અક્ષરો હોવા જોઈએ.',
-        'alpha_num' => ':field માં ફક્ત અક્ષરો અને સંખ્યા હોવા જોઈએ.',
-        'alpha_dash'=> ':field માં ફક્ત અક્ષરો, સંખ્યા, - અને _ હોવા જોઈએ.',
-        'unique'    => ':field પહેલેથી વપરાયેલું છે.',
-        'exists'    => ':field મળ્યું નહીં.',
-        'mobile'    => ':field માન્ય મોબાઈલ નંબર હોવો જોઈએ.',
+        'required'  => ':field is required.',
+        'email'     => ':field must be a valid email address.',
+        'numeric'   => ':field must be a number.',
+        'integer'   => ':field must be an integer.',
+        'min'       => ':field must be at least :param.',
+        'max'       => ':field may not be greater than :param.',
+        'between'   => ':field must be between :param0 and :param1.',
+        'in'        => 'The selected :field is invalid.',
+        'same'      => ':field and :param do not match.',
+        'confirmed' => ':field confirmation does not match.',
+        'regex'     => ':field format is invalid.',
+        'url'       => ':field must be a valid URL.',
+        'boolean'   => ':field must be true or false.',
+        'date'      => ':field must be a valid date.',
+        'alpha'     => ':field may only contain letters.',
+        'alpha_num' => ':field may only contain letters and numbers.',
+        'alpha_dash'=> ':field may only contain letters, numbers, dashes and underscores.',
+        'unique'    => ':field has already been taken.',
+        'exists'    => 'The selected :field does not exist.',
+        'mobile'    => ':field must be a valid mobile number.',
     ];
 
     public function __construct(array $data, array $rules, array $customMessages = [])
@@ -158,7 +158,7 @@ class Validator
         $template = $this->customMessages["{$field}.{$rule}"]
             ?? $this->customMessages[$rule]
             ?? $this->defaultMessages[$rule]
-            ?? ':field અમાન્ય છે.';
+            ?? ':field is invalid.';
 
         $message = str_replace(':field', $this->humanize($field), $template);
         $message = str_replace(':param', $params[0] ?? '', $message);

@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Middleware/CsrfMiddleware.php
 // -------------------------------------------------------------------
-// CSRF protection — બધા state-changing requests (POST/PUT/PATCH/DELETE)
-// પર `_token` field અથવા X-CSRF-TOKEN header verify કરે.
+// CSRF protection: every state-changing request (POST/PUT/PATCH/DELETE)
+// must carry a valid `_token` field or X-CSRF-TOKEN header.
 // -------------------------------------------------------------------
 
 namespace App\Middleware;
@@ -31,7 +31,7 @@ class CsrfMiddleware
             if ($request->wantsJson()) {
                 return Response::json(['error' => 'CSRF token mismatch'], 419);
             }
-            throw new HttpException(419, 'સુરક્ષા ટોકન મેળ ખાતું નથી. પેજ રિફ્રેશ કરી ફરી પ્રયત્ન કરો.');
+            throw new HttpException(419, 'Security token mismatch. Please refresh the page and try again.');
         }
         return $next($request);
     }

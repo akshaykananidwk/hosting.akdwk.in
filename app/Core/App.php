@@ -2,8 +2,8 @@
 // FILE: /app/Core/App.php
 // -------------------------------------------------------------------
 // Application kernel — config loader + .env parser + minimal service
-// container. આખી app નું central object; બધા Core services અહીંથી
-// resolve થાય.
+// container. Central object for the app; all Core services are
+// resolved from here.
 // -------------------------------------------------------------------
 
 namespace App\Core;
@@ -243,7 +243,7 @@ class App
                 echo htmlspecialchars((string) $e, ENT_QUOTES, 'UTF-8');
                 echo '</pre>';
             } else {
-                echo '<h1>500 — સર્વર ભૂલ</h1><p>કંઈક ખોટું થયું. ટીમને જાણ કરાઈ છે.</p>';
+                echo '<h1>500 — Server Error</h1><p>Something went wrong. The team has been notified.</p>';
             }
         });
     }

@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Core/Model.php
 // -------------------------------------------------------------------
-// Base model — QueryBuilder ઉપર thin layer. Multi-tenant scope નું
-// support built-in છે: $tenantScoped = true હોય તો દરેક query પર
-// આપોઆપ tenant_id filter લાગે (Module 4 currentTenantId set કરે).
+// Base model: a thin layer over QueryBuilder. Multi-tenant scoping is
+// built in: when $tenantScoped = true every query is automatically
+// filtered by tenant_id (Module 4 sets currentTenantId).
 // -------------------------------------------------------------------
 
 namespace App\Core;
@@ -56,7 +56,7 @@ abstract class Model
     {
         $row = static::find($id);
         if ($row === null) {
-            throw new HttpException(404, static::class . " #{$id} મળ્યું નહીં.");
+            throw new HttpException(404, static::class . " #{$id} not found.");
         }
         return $row;
     }

@@ -134,6 +134,13 @@ class Router
             // so controllers can abort(403|404|419) and still get a proper page.
             try {
                 return $this->runRoute($route, $request, $params);
+            } catch (ValidationException $e) {
+                // Form posts go back to the form with flashed errors/old input;
+                // API/AJAX callers get the field errors as JSON.
+                if ($request->wantsJson()) {
+                    return Response::json(['errors' => $e->getErrors()], 422);
+                }
+                return Response::redirect($e->getRedirectTo());
             } catch (HttpException $e) {
                 return $this->errorResponse($request, $e->getStatusCode(), $e->getMessage())
                     ->withHeaders($e->getHeaders());
@@ -143,7 +150,7 @@ class Router
         if ($methodMatchedButNotUri) {
             return $this->errorResponse($request, 405, 'Method Not Allowed');
         }
-        return $this->errorResponse($request, 404, 'પેજ મળ્યું નહીં (Not Found)');
+        return $this->errorResponse($request, 404, 'Page not found');
     }
 
     protected function runRoute(Route $route, Request $request, array $params): Response
@@ -257,13 +264,13 @@ class Router
             }
         }
         $labels = [
-            403 => 'પ્રવેશ નથી',
-            404 => 'પેજ મળ્યું નહીં',
+            403 => 'Access denied',
+            404 => 'Page not found',
             405 => 'Method Not Allowed',
-            419 => 'સુરક્ષા ટોકન સમાપ્ત',
-            429 => 'ઘણી બધી વિનંતીઓ',
+            419 => 'Session expired',
+            429 => 'Too many requests',
         ];
-        $title = $labels[$code] ?? 'ભૂલ';
+        $title = $labels[$code] ?? 'Error';
         $body = '<!doctype html><meta charset="utf-8">'
             . '<meta name="viewport" content="width=device-width,initial-scale=1">'
             . '<title>' . $code . ' — ' . e($title) . '</title>'
@@ -271,7 +278,7 @@ class Router
             . '<h1 style="font-size:3rem;margin:0">' . $code . '</h1>'
             . '<h2 style="font-weight:500">' . e($title) . '</h2>'
             . ($message !== '' ? '<p style="color:#64748b">' . e($message) . '</p>' : '')
-            . '<p><a href="/" style="color:#2563eb">← હોમ પર જાઓ</a></p></div>';
+            . '<p><a href="/" style="color:#2563eb">← Back to home</a></p></div>';
         return Response::make($body, $code);
     }
 

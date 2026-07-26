@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Middleware/GuestMiddleware.php
 // -------------------------------------------------------------------
-// ફક્ત guests માટે (login/register pages). પહેલેથી logged-in હોય તો
-// dashboard પર મોકલે.
+// Guests only (login/register pages). Already-authenticated users are
+// sent to their dashboard.
 // -------------------------------------------------------------------
 
 namespace App\Middleware;

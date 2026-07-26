@@ -2,7 +2,7 @@
 // FILE: /app/Middleware/RoleMiddleware.php
 // -------------------------------------------------------------------
 // Type/role guard. Router aliases: 'admin', 'reseller', 'client'.
-// વપરાશ: group middleware ['auth','admin'].
+// Usage: group middleware ['auth','admin'].
 // -------------------------------------------------------------------
 
 namespace App\Middleware;
@@ -23,7 +23,7 @@ abstract class RoleMiddleware
             return Response::redirect(url('login'));
         }
         if (!in_array($type, $this->allowed, true)) {
-            throw new HttpException(403, 'આ વિભાગમાં પ્રવેશ નથી (Forbidden).');
+            throw new HttpException(403, 'You do not have access to this area.');
         }
         return $next($request);
     }
