@@ -2,8 +2,8 @@
 // FILE: /app/Controllers/Client/ServiceController.php
 // -------------------------------------------------------------------
 // MODULE 10 — Client services. List, detail (credentials decrypt),
-// SSL install queue અને site password change. દરેક action પર
-// ownership ફરજિયાત — client પોતાની જ service જોઈ/બદલી શકે.
+// SSL install queue and site password change. Ownership is enforced
+// on every action — a client can only view/modify their own service.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;
@@ -49,7 +49,7 @@ class ServiceController extends Controller
         (new \App\Services\ProvisioningService())->enqueue((int) $service['id'], 'install_ssl');
         audit('client.service.install_ssl', 'service', (int) $service['id']);
 
-        return back_with('success', 'SSL install queue માં ઉમેર્યું. થોડી વારમાં લાગુ થશે.');
+        return back_with('success', 'SSL installation queued — it will be applied shortly.');
     }
 
     public function changePassword(Request $request, string $id = ''): Response
@@ -63,7 +63,7 @@ class ServiceController extends Controller
         ]);
         audit('client.service.password', 'service', (int) $service['id']);
 
-        return back_with('success', 'પાસવર્ડ બદલાયો.');
+        return back_with('success', 'Password changed.');
     }
 
     // ---------------------------------------------------------------

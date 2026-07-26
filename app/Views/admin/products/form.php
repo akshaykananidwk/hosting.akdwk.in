@@ -7,7 +7,7 @@ $freqs = ['none' => 'None', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' 
 ?>
 
 <div class="card" style="max-width:820px">
-    <div class="card-head"><?= $isEdit ? 'Product Edit કરો' : 'નવી Product' ?></div>
+    <div class="card-head"><?= $isEdit ? 'Product Edit Go' : 'New Product' ?></div>
     <div class="card-body">
         <form method="post" action="<?= e($action) ?>">
             <?= csrf_field() ?>
@@ -85,8 +85,8 @@ $freqs = ['none' => 'None', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' 
             </div>
 
             <div class="flex gap-1 mt-3">
-                <button type="submit" class="btn btn-primary"><?= $isEdit ? 'અપડેટ કરો' : 'બનાવો' ?></button>
-                <a href="<?= e(url('admin/products')) ?>" class="btn btn-outline">રદ કરો</a>
+                <button type="submit" class="btn btn-primary"><?= $isEdit ? 'Update' : 'Create' ?></button>
+                <a href="<?= e(url('admin/products')) ?>" class="btn btn-outline">Cancel</a>
             </div>
         </form>
     </div>

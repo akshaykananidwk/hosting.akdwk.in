@@ -11,22 +11,22 @@ $twoFa = (int) ($user['two_factor_enabled'] ?? 0) === 1;
         <form method="post" action="<?= e(url('client/profile')) ?>">
             <?= csrf_field() ?>
             <div class="form-group">
-                <label>પૂરું નામ</label>
+                <label>Full Name</label>
                 <input type="text" name="name" value="<?= e(old('name', $user['name'] ?? '')) ?>" required>
             </div>
             <div class="form-group">
-                <label>ઈમેલ</label>
+                <label>Email</label>
                 <input type="email" name="email" value="<?= e(old('email', $user['email'] ?? '')) ?>" required>
             </div>
             <div class="form-group">
-                <label>મોબાઈલ</label>
+                <label>Mobile</label>
                 <input type="text" name="mobile" value="<?= e(old('mobile', $user['mobile'] ?? '')) ?>">
             </div>
             <div class="form-group">
-                <label>નવો પાસવર્ડ <span class="small muted">(બદલવો હોય તો જ ભરો — ઓછામાં ઓછા 8 અક્ષર)</span></label>
+                <label>New Password <span class="small muted">(fill in only to change — minimum 8 characters)</span></label>
                 <input type="password" name="password" minlength="8" autocomplete="new-password" placeholder="••••••••">
             </div>
-            <button type="submit" class="btn btn-primary">સેવ કરો</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 
@@ -37,15 +37,15 @@ $twoFa = (int) ($user['two_factor_enabled'] ?? 0) === 1;
             <div class="mt-1">
                 <?php if ($twoFa): ?>
                     <span class="badge badge-success">Enabled</span>
-                    <span class="small muted">— તમારું એકાઉન્ટ 2FA થી સુરક્ષિત છે.</span>
+                    <span class="small muted">— Your account is protected with 2FA.</span>
                 <?php else: ?>
                     <span class="badge badge-muted">Disabled</span>
-                    <span class="small muted">— વધુ સુરક્ષા માટે 2FA ચાલુ કરવાની ભલામણ છે.</span>
+                    <span class="small muted">— Enabling 2FA is recommended for extra security.</span>
                 <?php endif; ?>
             </div>
             <p class="small muted mt-2">
-                2FA (TOTP / WhatsApp OTP) સેટ કરવા માટે login security હેઠળ વિકલ્પ ઉપલબ્ધ થશે.
-                સહાય માટે support ticket ખોલો.
+                2FA (TOTP / WhatsApp OTP) options will appear under login security.
+                Open a support ticket if you need help.
             </p>
         </div>
         <?php if (!empty($client)): ?>

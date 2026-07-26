@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Controllers/Client/DatabaseController.php
 // -------------------------------------------------------------------
-// MODULE 10 — Client database info. service_details માંથી DB name/user
-// અને decrypted password બતાવે + phpMyAdmin/Adminer link. Ownership
-// ફરજિયાત.
+// MODULE 10 — Client database info. Shows the DB name/user and the
+// decrypted password from service_details, plus a phpMyAdmin/Adminer
+// link. Ownership is enforced.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;

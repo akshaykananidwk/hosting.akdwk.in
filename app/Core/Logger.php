@@ -2,8 +2,8 @@
 // FILE: /app/Core/Logger.php
 // -------------------------------------------------------------------
 // Daily-rotated file logger — /storage/logs/akcloud-YYYY-MM-DD.log.
-// Levels: debug/info/warning/error/critical. Exceptions ને full trace
-// સાથે log કરે.
+// Levels: debug/info/warning/error/critical. Exceptions are logged with
+// a full stack trace.
 // -------------------------------------------------------------------
 
 namespace App\Core;

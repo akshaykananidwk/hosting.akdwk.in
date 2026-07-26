@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Services/Gateways/GatewayInterface.php
 // -------------------------------------------------------------------
-// Payment gateway driver contract (Module 8). દરેક gateway આ
-// implement કરે જેથી checkout/webhook code એકસરખું રહે.
+// Payment gateway driver contract (Module 8). Every gateway implements
+// this so checkout/webhook code stays identical across providers.
 // -------------------------------------------------------------------
 
 namespace App\Services\Gateways;

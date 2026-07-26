@@ -2,7 +2,7 @@
 // FILE: /app/Controllers/Client/ProfileController.php
 // -------------------------------------------------------------------
 // MODULE 10 — Client profile. Name/email/mobile/password update +
-// 2FA note. users અને clients બંને rows sync થાય.
+// 2FA note. Keeps the users and clients rows in sync.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;
@@ -67,6 +67,6 @@ class ProfileController extends Controller
 
         audit('client.profile.update', 'user', $userId);
 
-        return back_with('success', 'પ્રોફાઇલ અપડેટ થઈ.');
+        return back_with('success', 'Profile updated.');
     }
 }

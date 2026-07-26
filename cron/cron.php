@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------
 // MODULE 17 — single cron entry. crontab:
 //   */5 * * * * /www/server/php/82/bin/php /path/cron/cron.php >/dev/null 2>&1
-// Lock file overlap અટકાવે; CronRunner due jobs ચલાવે.
+// A lock file prevents overlap; CronRunner executes the due jobs.
 // -------------------------------------------------------------------
 
 declare(strict_types=1);

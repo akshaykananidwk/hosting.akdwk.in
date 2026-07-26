@@ -25,18 +25,18 @@ $sid = (int) $service['id'];
         <?php if ($service['status'] === 'active'): ?>
             <form method="post" action="<?= e(url('admin/services/' . $sid . '/suspend')) ?>">
                 <?= csrf_field() ?>
-                <button class="btn btn-sm btn-outline" data-confirm="આ service suspend કરવી છે?">Suspend</button>
+                <button class="btn btn-sm btn-outline" data-confirm="Suspend this service?">Suspend</button>
             </form>
         <?php elseif ($service['status'] === 'suspended'): ?>
             <form method="post" action="<?= e(url('admin/services/' . $sid . '/unsuspend')) ?>">
                 <?= csrf_field() ?>
-                <button class="btn btn-sm btn-primary" data-confirm="Unsuspend કરવી છે?">Unsuspend</button>
+                <button class="btn btn-sm btn-primary" data-confirm="Unsuspend Are you sure?">Unsuspend</button>
             </form>
         <?php endif; ?>
         <?php if (!in_array($service['status'], ['terminated'], true)): ?>
             <form method="post" action="<?= e(url('admin/services/' . $sid . '/terminate')) ?>">
                 <?= csrf_field() ?>
-                <button class="btn btn-sm btn-danger" data-confirm="Terminate કાયમી છે — ખાતરી છે?">Terminate</button>
+                <button class="btn btn-sm btn-danger" data-confirm="Terminate This is permanent — are you sure?">Terminate</button>
             </form>
         <?php endif; ?>
     </div>
@@ -44,7 +44,7 @@ $sid = (int) $service['id'];
 
 <div class="grid cols-2">
     <div class="card">
-        <div class="card-head"><span>ℹ️ વિગત</span></div>
+        <div class="card-head"><span>ℹ️ Details</span></div>
         <div class="card-body">
             <table class="table">
                 <tbody>
@@ -76,7 +76,7 @@ $sid = (int) $service['id'];
                 </tbody>
             </table>
             <?php else: ?>
-                <p class="muted">Provisioning બાકી છે — હજી credentials generate થયા નથી.</p>
+                <p class="muted">Provisioning pending — credentials have not been generated yet.</p>
             <?php endif; ?>
 
             <div class="mt-2">
@@ -85,7 +85,7 @@ $sid = (int) $service['id'];
                 <div><?= e(format_bytes($dTotal)) ?> / <?= e(format_mb((int) $service['disk_limit_mb'])) ?>
                     <?php if ($disk): ?><span class="small muted">(<?= e(number_format((float) $disk['percent'], 1)) ?>%)</span><?php endif; ?>
                 </div>
-                <div class="small muted mt-1">Bandwidth (આ મહિનો)</div>
+                <div class="small muted mt-1">Bandwidth (this month)</div>
                 <div><?= e(format_bytes((float) $bwMonth)) ?></div>
             </div>
         </div>
@@ -96,11 +96,11 @@ $sid = (int) $service['id'];
     <div class="card-head"><span>📜 Provisioning Logs</span></div>
     <div class="card-body">
         <?php if (empty($logs)): ?>
-            <p class="muted">કોઈ log નથી.</p>
+            <p class="muted">No logs.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>Step</th><th>Status</th><th>Message</th><th>સમય</th></tr></thead>
+                <thead><tr><th>Step</th><th>Status</th><th>Message</th><th>Time</th></tr></thead>
                 <tbody>
                 <?php foreach ($logs as $log): ?>
                     <tr>

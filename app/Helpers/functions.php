@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Helpers/functions.php
 // -------------------------------------------------------------------
-// Global helper functions — આખી app માં વપરાય. બધા `function_exists`
-// guard સાથે જેથી double-include પર ભૂલ ન આવે.
+// Global helper functions used across the app. Each is guarded with
+// `function_exists` so a double include cannot cause an error.
 // -------------------------------------------------------------------
 
 use App\Core\App;
@@ -248,12 +248,12 @@ if (!function_exists('array_get')) {
 }
 
 if (!function_exists('__')) {
-    // Translation helper — lang/{locale}.php માંથી key વાંચે.
+    // Translation helper — reads keys from lang/{locale}.php.
     function __(string $key, array $replace = []): string
     {
         static $lines = null;
         if ($lines === null) {
-            $locale = (string) config('app.locale', 'gu');
+            $locale = (string) config('app.locale', 'en');
             $file = base_path("lang/{$locale}.php");
             $lines = is_file($file) ? (array) require $file : [];
         }

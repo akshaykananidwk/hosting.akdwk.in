@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Core/QueryBuilder.php
 // -------------------------------------------------------------------
-// Fluent query builder — બધા values PLACEHOLDERS થી bind થાય, અને
-// identifiers (table/column) strict regex થી sanitize થાય જેથી
-// SQL injection શક્ય જ ન બને.
+// Fluent query builder. All values are bound as PLACEHOLDERS and
+// identifiers (table/column) are sanitised with a strict regex, so
+// SQL injection is not possible.
 // -------------------------------------------------------------------
 
 namespace App\Core;

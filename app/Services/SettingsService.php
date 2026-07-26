@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Services/SettingsService.php
 // -------------------------------------------------------------------
-// DB-driven settings (Module 21). `settings` table માંથી key/value
-// વાંચે, encrypted values decrypt કરે, અને per-request cache રાખે.
-// Install પહેલા DB ન હોય તો gracefully default આપે.
+// DB-driven settings (Module 21). Reads key/value pairs from the
+// `settings` table, decrypts encrypted values and caches per request.
+// Falls back to defaults when the DB is unavailable (pre-install).
 // -------------------------------------------------------------------
 
 namespace App\Services;

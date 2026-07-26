@@ -1,11 +1,11 @@
 <?php // FILE: /app/Views/admin/coupons/index.php — coupon list + inline create
-$this->extend('layouts/admin'); $this->set('title', 'Coupons (કૂપન)');
+$this->extend('layouts/admin'); $this->set('title', 'Coupons (Coupons)');
 $cBadge = ['active' => 'success', 'disabled' => 'muted'];
 ?>
 
 <div class="grid cols-2">
     <div class="card">
-        <div class="card-head">નવી કૂપન</div>
+        <div class="card-head">New Coupon</div>
         <div class="card-body">
             <form method="post" action="<?= e(url('admin/coupons')) ?>">
                 <?= csrf_field() ?>
@@ -39,18 +39,18 @@ $cBadge = ['active' => 'success', 'disabled' => 'muted'];
                     <div class="form-group"><label>Starts</label><input type="date" name="starts_at" value="<?= e(old('starts_at')) ?>"></div>
                     <div class="form-group"><label>Expires</label><input type="date" name="expires_at" value="<?= e(old('expires_at')) ?>"></div>
                 </div>
-                <button type="submit" class="btn btn-primary">કૂપન બનાવો</button>
+                <button type="submit" class="btn btn-primary">Create Coupon</button>
             </form>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-head">બધી કૂપન <span class="muted small">(<?= count($coupons) ?>)</span></div>
+        <div class="card-head">All Coupons <span class="muted small">(<?= count($coupons) ?>)</span></div>
         <div class="card-body table-wrap">
             <table class="table">
-                <thead><tr><th>Code</th><th>Value</th><th>Used</th><th>Expires</th><th>સ્થિતિ</th></tr></thead>
+                <thead><tr><th>Code</th><th>Value</th><th>Used</th><th>Expires</th><th>Status</th></tr></thead>
                 <tbody>
-                    <?php if (empty($coupons)): ?><tr><td colspan="5" class="text-center muted">કોઈ કૂપન નથી</td></tr><?php endif; ?>
+                    <?php if (empty($coupons)): ?><tr><td colspan="5" class="text-center muted">No coupons</td></tr><?php endif; ?>
                     <?php foreach ($coupons as $c): ?>
                         <tr>
                             <td class="mono"><?= e($c['code']) ?></td>

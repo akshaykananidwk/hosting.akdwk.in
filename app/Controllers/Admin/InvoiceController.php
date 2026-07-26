@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/InvoiceController.php
 // -------------------------------------------------------------------
-// Admin — Invoices (ઇન્વોઇસ). List + status filter, printable GST
+// Admin — Invoices. List + status filter, printable GST
 // invoice, mark-paid via BillingService.
 // -------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ class InvoiceController extends Controller
         $invoice = db()->table('invoices')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$invoice) {
-            abort(404, 'ઇન્વોઇસ મળ્યું નહીં');
+            abort(404, 'Invoice not found');
         }
 
         $client = db()->table('clients')->where('id', (int) $invoice['client_id'])->first();
@@ -73,17 +73,17 @@ class InvoiceController extends Controller
         $invoice = db()->table('invoices')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$invoice) {
-            return back_with('error', 'ઇન્વોઇસ મળ્યું નહીં');
+            return back_with('error', 'Invoice not found');
         }
         if ($invoice['status'] === 'paid') {
-            return back_with('info', 'આ ઇન્વોઇસ પહેલેથી paid છે');
+            return back_with('info', 'This invoice is already paid');
         }
 
         $ok = (new BillingService())->markPaid((int) $id, 'manual');
         if ($ok) {
             audit('invoice.mark_paid', 'Invoice', (int) $id);
-            return back_with('success', 'ઇન્વોઇસ paid તરીકે માર્ક થયું ✅');
+            return back_with('success', 'Invoice marked as paid ✅');
         }
-        return back_with('error', 'ઇન્વોઇસ paid કરી શકાયું નહીં');
+        return back_with('error', 'Could not mark the invoice as paid');
     }
 }

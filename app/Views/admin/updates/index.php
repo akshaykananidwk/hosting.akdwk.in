@@ -15,15 +15,15 @@ $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'wa
                 <div class="value" style="font-size:1.5rem;font-weight:700"><?= e($currentVersion) ?></div>
             </div>
             <div class="flex gap-1">
-                <button id="check-update" class="btn btn-outline">Update તપાસો</button>
+                <button id="check-update" class="btn btn-outline">Update Check</button>
                 <?php if ($canRun): ?>
-                    <button id="run-update" class="btn btn-primary" disabled>Update ચલાવો</button>
+                    <button id="run-update" class="btn btn-primary" disabled>Update Run</button>
                 <?php endif; ?>
             </div>
         </div>
 
         <?php if (!$canRun): ?>
-            <div class="alert alert-warning">Update ફક્ત <strong>super_admin</strong> જ ચલાવી શકે.</div>
+            <div class="alert alert-warning">Update Only <strong>super_admin</strong> can run this.</div>
         <?php endif; ?>
 
         <div id="update-result"></div>
@@ -34,11 +34,11 @@ $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'wa
     <div class="card-head"><span>🕑 Update History</span></div>
     <div class="card-body">
         <?php if (empty($history)): ?>
-            <p class="muted">હજી કોઈ update થયું નથી.</p>
+            <p class="muted">No updates have been run yet.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>From → To</th><th>Commit</th><th>Status</th><th>સમય</th></tr></thead>
+                <thead><tr><th>From → To</th><th>Commit</th><th>Status</th><th>Time</th></tr></thead>
                 <tbody>
                 <?php foreach ($history as $h): ?>
                     <tr>
@@ -71,7 +71,7 @@ $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'wa
     if (checkBtn) {
         checkBtn.addEventListener('click', function () {
             checkBtn.disabled = true;
-            box.innerHTML = '<div class="alert alert-info">GitHub તપાસાઈ રહ્યું છે…</div>';
+            box.innerHTML = '<div class="alert alert-info">GitHub Checking…</div>';
             window.akc.post(base + '/check', {}).then(function (r) {
                 checkBtn.disabled = false;
                 if (r.error) {
@@ -79,36 +79,36 @@ $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'wa
                     return;
                 }
                 if (r.available) {
-                    box.innerHTML = '<div class="alert alert-warning">નવું update ઉપલબ્ધ છે! ' +
+                    box.innerHTML = '<div class="alert alert-warning">A new update is available! ' +
                         'Commit <span class="mono">' + esc(r.latest_sha) + '</span> — ' + esc(r.message) + '</div>';
                     if (runBtn) { runBtn.disabled = false; }
                 } else {
-                    box.innerHTML = '<div class="alert alert-success">System up-to-date છે ✅ (' + esc(r.latest_sha || r.current_version) + ')</div>';
+                    box.innerHTML = '<div class="alert alert-success">System up-to-date ✅ (' + esc(r.latest_sha || r.current_version) + ')</div>';
                     if (runBtn) { runBtn.disabled = true; }
                 }
             }).catch(function () {
                 checkBtn.disabled = false;
-                box.innerHTML = '<div class="alert alert-danger">Check request નિષ્ફળ.</div>';
+                box.innerHTML = '<div class="alert alert-danger">Check request failed.</div>';
             });
         });
     }
 
     if (runBtn) {
         runBtn.addEventListener('click', function () {
-            if (!window.confirm('Update ચલાવવું છે? Backup લેવાઈને update થશે.')) { return; }
+            if (!window.confirm('Update Run the update? A backup will be taken first.')) { return; }
             runBtn.disabled = true;
-            runBtn.textContent = 'Update ચાલી રહ્યું…';
-            box.innerHTML = '<div class="alert alert-info">Update process ચાલુ છે — page બંધ ન કરો…</div>';
+            runBtn.textContent = 'Update Running…';
+            box.innerHTML = '<div class="alert alert-info">Update process In progress — do not close this page…</div>';
             window.akc.post(base + '/run', {}).then(function (r) {
-                runBtn.textContent = 'Update ચલાવો';
+                runBtn.textContent = 'Update Run';
                 var cls = r.ok ? 'alert-success' : 'alert-danger';
                 box.innerHTML = '<div class="alert ' + cls + '">' + esc(r.message) + '</div>';
                 if (r.ok) { setTimeout(function () { window.location.reload(); }, 2500); }
                 else { runBtn.disabled = false; }
             }).catch(function () {
-                runBtn.textContent = 'Update ચલાવો';
+                runBtn.textContent = 'Update Run';
                 runBtn.disabled = false;
-                box.innerHTML = '<div class="alert alert-danger">Update request નિષ્ફળ.</div>';
+                box.innerHTML = '<div class="alert alert-danger">Update request failed.</div>';
             });
         });
     }

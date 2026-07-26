@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Services/BandwidthService.php
 // -------------------------------------------------------------------
-// MODULE 5(b) — Per-site bandwidth tracking (aaPanel API માં નથી).
-// nginx access log (/www/wwwlogs/{domain}.log) incremental parse કરે
-// (offset + inode યાદ રાખે જેથી log rotate પર fresh શરૂ થાય).
+// MODULE 5(b) — Per-site bandwidth tracking (not offered by the aaPanel API).
+// Incrementally parses the nginx access log (/www/wwwlogs/{domain}.log),
+// remembering offset + inode so a rotated log restarts cleanly.
 // -------------------------------------------------------------------
 
 namespace App\Services;

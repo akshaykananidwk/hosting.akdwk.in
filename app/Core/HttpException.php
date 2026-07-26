@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/HttpException.php
 // -------------------------------------------------------------------
-// Exception જે HTTP status code સાથે આવે — Router/Controllers આનાથી
-// 403/404/419/500 જેવા responses throw કરી શકે.
+// An exception carrying an HTTP status code, so routers and controllers
+// can throw 403/404/419/500 responses directly.
 // -------------------------------------------------------------------
 
 namespace App\Core;

@@ -1,15 +1,15 @@
 <?php // FILE: /app/Views/admin/products/index.php — products grouped by group
-$this->extend('layouts/admin'); $this->set('title', 'Products (પ્રોડક્ટ)');
+$this->extend('layouts/admin'); $this->set('title', 'Products (Products)');
 $pBadge = ['active' => 'success', 'hidden' => 'muted', 'retired' => 'danger'];
 ?>
 
 <div class="flex justify-between items-center mb-3">
     <h3 style="margin:0">Products / Plans</h3>
-    <a href="<?= e(url('admin/products/create')) ?>" class="btn btn-primary btn-sm">+ નવી પ્રોડક્ટ</a>
+    <a href="<?= e(url('admin/products/create')) ?>" class="btn btn-primary btn-sm">+ New Product</a>
 </div>
 
 <?php if (empty($groups)): ?>
-    <div class="alert alert-info">કોઈ product group નથી.</div>
+    <div class="alert alert-info">No product groups.</div>
 <?php endif; ?>
 
 <?php foreach ($groups as $g): $rows = $byGroup[(int) $g['id']] ?? []; ?>
@@ -20,9 +20,9 @@ $pBadge = ['active' => 'success', 'hidden' => 'muted', 'retired' => 'danger'];
         </div>
         <div class="card-body table-wrap">
             <table class="table">
-                <thead><tr><th>Plan</th><th>Disk</th><th>Bandwidth</th><th>Sites</th><th>DB</th><th>PHP</th><th>SSL</th><th>Backup</th><th>Monthly</th><th>Yearly</th><th>સ્થિતિ</th><th></th></tr></thead>
+                <thead><tr><th>Plan</th><th>Disk</th><th>Bandwidth</th><th>Sites</th><th>DB</th><th>PHP</th><th>SSL</th><th>Backup</th><th>Monthly</th><th>Yearly</th><th>Status</th><th></th></tr></thead>
                 <tbody>
-                    <?php if (empty($rows)): ?><tr><td colspan="12" class="text-center muted">આ group માં કોઈ plan નથી</td></tr><?php endif; ?>
+                    <?php if (empty($rows)): ?><tr><td colspan="12" class="text-center muted">No plans in this group</td></tr><?php endif; ?>
                     <?php foreach ($rows as $p): ?>
                         <tr>
                             <td><strong><?= e($p['name']) ?></strong></td>

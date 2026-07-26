@@ -71,7 +71,7 @@ class PricingController extends Controller
             ->first();
 
         if (!$reseller) {
-            return back_with('error', 'Reseller પ્રોફાઇલ મળી નથી.');
+            return back_with('error', 'Reseller profile not found.');
         }
 
         $resellerId = (int) $reseller['id'];
@@ -140,7 +140,7 @@ class PricingController extends Controller
             ]);
         }
 
-        return back_with('success', $saved . ' પ્રોડક્ટ ની pricing સેવ થઈ.');
+        return back_with('success', $saved . ' product price(s) saved.');
     }
 
     /**

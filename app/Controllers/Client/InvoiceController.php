@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Controllers/Client/InvoiceController.php
 // -------------------------------------------------------------------
-// MODULE 10 — Client invoices. List (pay-now for unpaid) અને printable
-// detail with GST breakup. Ownership ફરજિયાત.
+// MODULE 10 — Client invoices. List (pay-now for unpaid) and printable
+// detail with GST breakup. Ownership is enforced.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;

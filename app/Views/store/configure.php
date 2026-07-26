@@ -1,5 +1,5 @@
 <?php /* FILE: /app/Views/store/configure.php — order configuration form */ ?>
-<?php $this->extend('layouts/guest'); $this->set('title', 'ઓર્ડર કન્ફિગર'); ?>
+<?php $this->extend('layouts/guest'); $this->set('title', 'Configure Order'); ?>
 <?php $this->section('content'); ?>
 <h3 class="text-center mb-2"><?= e($product['name']) ?></h3>
 <?php if (!empty($product['description'])): ?>
@@ -8,20 +8,20 @@
 
 <div class="card"><div class="card-body">
     <div class="small muted">
-        💾 ડિસ્ક: <?= e(format_mb((int) $product['disk_mb'])) ?><br>
-        📶 બેન્ડવિડ્થ: <?= ((int) $product['is_bw_unlimited'] === 1)
+        💾 Disk: <?= e(format_mb((int) $product['disk_mb'])) ?><br>
+        📶 Bandwidth: <?= ((int) $product['is_bw_unlimited'] === 1)
             ? 'Unlimited' : e(format_mb((int) $product['bandwidth_mb'])) ?><br>
         🐘 PHP: <?= e($product['php_version']) ?>
-        &nbsp;·&nbsp; 🔒 Free SSL: <?= ((int) ($product['free_ssl'] ?? 0) === 1) ? 'હા' : 'ના' ?>
+        &nbsp;·&nbsp; 🔒 Free SSL: <?= ((int) ($product['free_ssl'] ?? 0) === 1) ? 'Yes' : 'No' ?>
     </div>
 </div></div>
 
 <?php if (empty($cycles)): ?>
-    <div class="alert alert-warning">આ પ્રોડક્ટ માટે કિંમત સેટ થઈ નથી. કૃપા કરી પછી પ્રયત્ન કરો.</div>
-    <div class="text-center small mt-3"><a href="<?= e(url('store')) ?>">← બધા પ્લાન</a></div>
+    <div class="alert alert-warning">No price has been set for this product. Please try again later.</div>
+    <div class="text-center small mt-3"><a href="<?= e(url('store')) ?>">← All Plans</a></div>
 <?php else: ?>
     <?php if (auth()->guest()): ?>
-        <div class="alert alert-info small">ઓર્ડર પૂરો કરવા માટે લોગિન જરૂરી છે — ડોમેન નાખીને આગળ વધો.</div>
+        <div class="alert alert-info small">You need to sign in to complete the order — enter a domain to continue.</div>
     <?php endif; ?>
 
     <form method="post" action="<?= e(url('order')) ?>">
@@ -29,13 +29,13 @@
         <input type="hidden" name="product_id" value="<?= e($product['id']) ?>">
 
         <div class="form-group">
-            <label>ડોમેન નામ</label>
+            <label>Domain Name</label>
             <input type="text" name="domain" value="<?= e(old('domain')) ?>" placeholder="example.com" required>
-            <div class="form-hint">તમારું ડોમેન નાખો (દા.ત. mysite.com).</div>
+            <div class="form-hint">Enter your domain (e.g. mysite.com).</div>
         </div>
 
         <div class="form-group">
-            <label>બિલિંગ સાયકલ</label>
+            <label>Billing Cycle</label>
             <select name="billing_cycle" required>
                 <?php foreach ($cycles as $cy): ?>
                     <option value="<?= e($cy['key']) ?>"><?= e($cy['label']) ?> — <?= e(money($cy['price'])) ?></option>
@@ -44,13 +44,13 @@
         </div>
 
         <div class="form-group">
-            <label>કૂપન કોડ (વૈકલ્પિક)</label>
+            <label>Coupon code (optional)</label>
             <input type="text" name="coupon" value="<?= e(old('coupon')) ?>" placeholder="DISCOUNT10">
         </div>
 
-        <button type="submit" class="btn btn-primary btn-block">આગળ વધો → ચેકઆઉટ</button>
+        <button type="submit" class="btn btn-primary btn-block">Continue → Checkout</button>
     </form>
 
-    <div class="text-center small mt-3"><a href="<?= e(url('store')) ?>">← બધા પ્લાન</a></div>
+    <div class="text-center small mt-3"><a href="<?= e(url('store')) ?>">← All Plans</a></div>
 <?php endif; ?>
 <?php $this->end(); ?>

@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/SettingController.php
 // -------------------------------------------------------------------
-// Admin — System settings (સેટિંગ્સ). Tabbed form driven by a schema.
+// Admin — System settings. Tabbed form driven by a schema.
 // Secrets are stored encrypted and only overwritten when a new value
 // is submitted (blank keeps the existing secret).
 // -------------------------------------------------------------------
@@ -52,7 +52,7 @@ class SettingController extends Controller
         }
 
         audit('settings.update');
-        return back_with('success', 'સેટિંગ્સ સેવ થઈ ✅');
+        return back_with('success', 'Settings saved ✅');
     }
 
     /**
@@ -70,7 +70,7 @@ class SettingController extends Controller
                     ['group' => 'general', 'key' => 'timezone', 'label' => 'Timezone', 'type' => 'text'],
                     ['group' => 'general', 'key' => 'currency', 'label' => 'Currency', 'type' => 'text'],
                     ['group' => 'general', 'key' => 'currency_symbol', 'label' => 'Currency Symbol', 'type' => 'text'],
-                    ['group' => 'general', 'key' => 'default_language', 'label' => 'Default Language', 'type' => 'select', 'options' => ['gu' => 'ગુજરાતી', 'en' => 'English', 'hi' => 'हिंदी']],
+                    ['group' => 'general', 'key' => 'default_language', 'label' => 'Default Language', 'type' => 'select', 'options' => ['en' => 'English', 'gu' => 'ગુજરાતી', 'hi' => 'हिंदी']],
                     ['group' => 'general', 'key' => 'maintenance_mode', 'label' => 'Maintenance Mode', 'type' => 'bool'],
                     ['group' => 'billing', 'key' => 'invoice_prefix', 'label' => 'Invoice Prefix', 'type' => 'text'],
                     ['group' => 'billing', 'key' => 'invoice_generate_days', 'label' => 'Generate Invoice (days before due)', 'type' => 'number'],

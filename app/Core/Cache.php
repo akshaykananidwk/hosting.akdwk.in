@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Cache.php
 // -------------------------------------------------------------------
-// File-based cache — /storage/cache માં serialized files. TTL support,
-// remember() helper, atomic writes. Redis જેવી dependency વગર.
+// File-based cache: serialized files in /storage/cache. TTL support,
+// remember() helper and atomic writes — no Redis dependency.
 // -------------------------------------------------------------------
 
 namespace App\Core;

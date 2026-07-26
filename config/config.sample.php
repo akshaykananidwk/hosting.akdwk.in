@@ -10,10 +10,10 @@ return [
     'app' => [
         'name'     => 'AK Cloud',
         'env'      => 'production',   // production | local
-        'debug'    => false,          // production માં હંમેશા false
+        'debug'    => false,          // always false in production
         'url'      => 'https://panel.akdwk.in',
         'timezone' => 'Asia/Kolkata',
-        'locale'   => 'gu',           // gu | hi | en
+        'locale'   => 'en',           // en | gu | hi
         'key'      => '',             // AES-256 key (installer generates)
     ],
 

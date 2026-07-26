@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Services/CronRunner.php
 // -------------------------------------------------------------------
-// MODULE 17 — Cron dispatcher + all 16 jobs. cron/cron.php એક જ entry
-// થી ચાલે. દરેક job "due?" (cron expression match) હોય તો જ ચાલે,
-// lock file overlap અટકાવે, દરેક job નો cron_logs માં log.
+// MODULE 17 — Cron dispatcher + all 16 jobs. cron/cron.php is the
+// single entry point. A job runs only when its cron expression is due;
+// a lock file prevents overlap and every job is logged to cron_logs.
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -401,7 +401,7 @@ class CronRunner
         $check = (new UpdateService())->checkForUpdate();
         if (!empty($check['available'])) {
             $this->db->table('notifications')->insert([
-                'type' => 'update', 'title' => 'નવું update ઉપલબ્ધ છે',
+                'type' => 'update', 'title' => 'A new update is available',
                 'body' => ($check['message'] ?? ''), 'link' => '/admin/updates', 'icon' => '🔄',
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -420,7 +420,7 @@ class CronRunner
         $phone = settings('general.admin_phone', '');
         if ($phone) {
             (new WhatsAppService())->send((string) $phone,
-                "📊 આજનો સારાંશ ({$today})\nનવા ઓર્ડર: {$orders}\nકલેક્શન: ₹" . number_format($revenue, 2));
+                "📊 Daily summary ({$today})\nNew orders: {$orders}\nCollected: ₹" . number_format($revenue, 2));
         }
         return "revenue ₹{$revenue}, orders {$orders}";
     }

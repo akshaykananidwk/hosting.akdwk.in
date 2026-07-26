@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Controllers/Client/DashboardController.php
 // -------------------------------------------------------------------
-// MODULE 10 — Client area dashboard. સ્વાગત, stat tiles, services
-// usage bars, recent invoices અને announcements બતાવે.
+// MODULE 10 — Client area dashboard: welcome, stat tiles, service
+// usage bars, recent invoices and announcements.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;

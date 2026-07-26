@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Services/QuotaService.php
 // -------------------------------------------------------------------
-// MODULE 5(a) — Disk quota enforcement (aaPanel પોતે નથી આપતું).
-// du -sb થી site size + information_schema થી DB size ગણે, plan
-// limit સાથે સરખાવે, 80/90/100% warnings મોકલે, grace પછી suspend.
+// MODULE 5(a) — Disk quota enforcement (aaPanel provides none).
+// Measures site size with du -sb and database size from information_schema,
+// compares against the plan limit, sends 80/90/100% warnings and suspends after grace.
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -48,8 +48,8 @@ class QuotaService
     }
 
     /**
-     * du -sb {path} — escapeshellarg ફરજિયાત (command injection guard).
-     * shell_exec disabled હોય તો PHP recursive fallback.
+     * du -sb {path} — escapeshellarg is mandatory (command injection guard).
+     * Falls back to a recursive PHP scan when shell_exec is disabled.
      */
     public function directorySize(string $path): int
     {

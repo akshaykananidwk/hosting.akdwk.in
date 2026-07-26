@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/ProductController.php
 // -------------------------------------------------------------------
-// Admin — Products / Plans (પ્રોડક્ટ). Grouped listing, create + edit
+// Admin — Products / Plans. Grouped listing, create + edit
 // with per-cycle pricing (product_pricing).
 // -------------------------------------------------------------------
 
@@ -89,7 +89,7 @@ class ProductController extends Controller
         ));
 
         audit('product.create', 'Product', (int) $productId, ['name' => $data['name']]);
-        return redirect_route('admin/products', 'success', 'પ્રોડક્ટ બની ગઈ ✅');
+        return redirect_route('admin/products', 'success', 'Product created ✅');
     }
 
     /** Edit form with existing product + pricing. */
@@ -99,7 +99,7 @@ class ProductController extends Controller
         $product = db()->table('products')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$product) {
-            abort(404, 'પ્રોડક્ટ મળી નહીં');
+            abort(404, 'Product not found');
         }
         $pricing = db()->table('product_pricing')
             ->where('product_id', (int) $product['id'])->first() ?? $this->emptyPricing();
@@ -120,7 +120,7 @@ class ProductController extends Controller
         $product = db()->table('products')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$product) {
-            abort(404, 'પ્રોડક્ટ મળી નહીં');
+            abort(404, 'Product not found');
         }
         $data = $this->validate($request, [
             'name'     => 'required|max:150',
@@ -149,7 +149,7 @@ class ProductController extends Controller
         }
 
         audit('product.update', 'Product', (int) $product['id']);
-        return redirect_route('admin/products', 'success', 'પ્રોડક્ટ અપડેટ થઈ ✅');
+        return redirect_route('admin/products', 'success', 'Product updated ✅');
     }
 
     // ---------------------------------------------------------------

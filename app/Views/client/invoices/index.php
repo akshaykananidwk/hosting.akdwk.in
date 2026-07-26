@@ -16,7 +16,7 @@ $statusBadge = static function (string $s): string {
 <div class="card">
     <h3 style="margin:0 0 12px">🧾 My Invoices</h3>
     <?php if (empty($invoices)): ?>
-        <p class="muted">કોઈ invoice નથી.</p>
+        <p class="muted">No invoices.</p>
     <?php else: ?>
         <div class="table-wrap">
             <table class="table">

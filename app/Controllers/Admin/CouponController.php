@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/CouponController.php
 // -------------------------------------------------------------------
-// Admin — Coupons (કૂપન). List + inline create.
+// Admin — Coupons. List + inline create.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Admin;
@@ -54,6 +54,6 @@ class CouponController extends Controller
         ]);
 
         audit('coupon.create', 'Coupon', (int) $couponId, ['code' => $data['code']]);
-        return redirect_route('admin/coupons', 'success', 'કૂપન બની ગઈ ✅');
+        return redirect_route('admin/coupons', 'success', 'Coupon created ✅');
     }
 }

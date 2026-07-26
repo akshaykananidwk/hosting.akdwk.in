@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Services/Gateways/ManualUpiGateway.php
 // -------------------------------------------------------------------
-// Manual UPI driver — QR બતાવે + client UTR submit કરે → admin approve.
-// verify() અહીં null આપે (admin જ manually approve કરે).
+// Manual UPI driver: shows a QR, the client submits a UTR, an admin approves.
+// verify() returns null here — approval is always manual.
 // -------------------------------------------------------------------
 
 namespace App\Services\Gateways;
@@ -37,7 +37,7 @@ class ManualUpiGateway implements GatewayInterface
                 'payee' => $this->payeeName,
                 'amount' => $amount,
                 'upi_uri' => $upiUri,
-                'note' => 'ચુકવણી પછી UTR/Transaction ID નાખો — admin verify કરશે.',
+                'note' => 'After paying, enter the UTR / transaction ID — an admin will verify it.',
             ],
         ];
     }

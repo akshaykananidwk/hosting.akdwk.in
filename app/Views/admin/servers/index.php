@@ -9,11 +9,11 @@ $statusBadge = ['online' => 'success', 'offline' => 'danger', 'maintenance' => '
 <div class="card">
     <div class="card-head">
         <span>🖥️ aaPanel Servers</span>
-        <a href="<?= e(url('admin/servers/create')) ?>" class="btn btn-primary btn-sm">+ Server ઉમેરો</a>
+        <a href="<?= e(url('admin/servers/create')) ?>" class="btn btn-primary btn-sm">+ Server Add</a>
     </div>
     <div class="card-body">
         <?php if (empty($servers)): ?>
-            <p class="muted">કોઈ server નથી. પહેલો aaPanel server ઉમેરો.</p>
+            <p class="muted">No servers yet. Add your first aaPanel server.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
@@ -93,7 +93,7 @@ $statusBadge = ['online' => 'success', 'offline' => 'danger', 'maintenance' => '
             window.akc.post(testUrl + iid + '/import', {}).then(function (r) {
                 busy(im, false);
                 if (r.ok) {
-                    ibox.innerHTML = '<span class="badge badge-info">' + (r.count || 0) + ' sites મળી</span> <span class="muted">' +
+                    ibox.innerHTML = '<span class="badge badge-info">' + (r.count || 0) + ' sites found</span> <span class="muted">' +
                         (r.note ? String(r.note).replace(/[<>&]/g, '') : '') + '</span>';
                 } else {
                     ibox.innerHTML = '<span class="badge badge-danger">' +

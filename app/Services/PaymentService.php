@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Services/PaymentService.php
 // -------------------------------------------------------------------
-// Gateway resolver — driver name પરથી configured gateway instance આપે
-// (keys `payment_gateways.config` માંથી, encrypted). Module 8.
+// Gateway resolver: returns a configured gateway instance for a driver
+// name (keys read from `payment_gateways.config`, encrypted). Module 8.
 // -------------------------------------------------------------------
 
 namespace App\Services;

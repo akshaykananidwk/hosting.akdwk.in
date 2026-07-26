@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------
 // Authentication core — session-based identity + credential check
 // against the `users` table with lockout support. 2FA/OTP/audit
-// logging Module 3 માં આની ઉપર બને છે.
+// logging are layered on top of this in Module 3.
 // -------------------------------------------------------------------
 
 namespace App\Core;

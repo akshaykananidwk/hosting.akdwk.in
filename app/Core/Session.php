@@ -2,7 +2,7 @@
 // FILE: /app/Core/Session.php
 // -------------------------------------------------------------------
 // Secure session wrapper — httponly/secure/samesite cookies, flash
-// data, old-input, અને CSRF token. બધું static facade તરીકે.
+// data, old input and the CSRF token — exposed as a static facade.
 // -------------------------------------------------------------------
 
 namespace App\Core;

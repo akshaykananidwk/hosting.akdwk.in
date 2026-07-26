@@ -24,11 +24,11 @@ $usageBar = static function (int $used, int $limit, bool $unlimited = false): ar
 <div class="card">
     <div class="flex items-center justify-between mb-2">
         <h3 style="margin:0">🌐 My Services</h3>
-        <a class="btn btn-sm btn-primary" href="<?= e(url('store')) ?>">+ નવું ઓર્ડર</a>
+        <a class="btn btn-sm btn-primary" href="<?= e(url('store')) ?>">+ New Order</a>
     </div>
 
     <?php if (empty($services)): ?>
-        <p class="muted">હજી કોઈ service નથી. <a href="<?= e(url('store')) ?>">Store માંથી hosting લો →</a></p>
+        <p class="muted">No services yet. <a href="<?= e(url('store')) ?>">Store Get hosting from →</a></p>
     <?php else: ?>
         <div class="table-wrap">
             <table class="table">

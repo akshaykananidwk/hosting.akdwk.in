@@ -15,27 +15,27 @@
     $prios = $priorities ?? ['low', 'medium', 'high', 'urgent'];
 ?>
 <div class="flex items-center justify-between mb-2">
-    <h2 class="page-title" style="margin:0">🎫 મદદ ટિકિટ (Support)</h2>
-    <button type="button" class="btn btn-primary btn-sm" onclick="toggleNewTicket()">➕ નવી ટિકિટ</button>
+    <h2 class="page-title" style="margin:0">🎫 Support</h2>
+    <button type="button" class="btn btn-primary btn-sm" onclick="toggleNewTicket()">➕ New Ticket</button>
 </div>
 
 <div id="new-ticket" class="card hidden">
-    <div class="card-head">નવી ટિકિટ ખોલો</div>
+    <div class="card-head">Open a new ticket</div>
     <div class="card-body">
         <form method="post" action="<?= e(url('client/tickets')) ?>">
             <?= csrf_field() ?>
             <div class="grid cols-2">
                 <div class="form-group">
-                    <label>વિભાગ (Department)</label>
+                    <label>Department</label>
                     <select name="department_id" required>
-                        <option value="">— પસંદ કરો —</option>
+                        <option value="">— Select —</option>
                         <?php foreach ($depts as $d): ?>
                             <option value="<?= e($d['id']) ?>" <?= (string) old('department_id') === (string) $d['id'] ? 'selected' : '' ?>><?= e($d['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>પ્રાથમિકતા (Priority)</label>
+                    <label>Priority</label>
                     <select name="priority" required>
                         <?php foreach ($prios as $p): ?>
                             <option value="<?= e($p) ?>" <?= (old('priority', 'medium')) === $p ? 'selected' : '' ?>><?= e(ucfirst($p)) ?></option>
@@ -44,14 +44,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>વિષય (Subject)</label>
+                <label>Subject</label>
                 <input type="text" name="subject" value="<?= e(old('subject')) ?>" required>
             </div>
             <div class="form-group">
-                <label>સંદેશ (Message)</label>
+                <label>Message</label>
                 <textarea name="message" rows="5" required><?= e(old('message')) ?></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">ટિકિટ મોકલો</button>
+            <button type="submit" class="btn btn-primary">Submit Ticket</button>
         </form>
     </div>
 </div>
@@ -72,7 +72,7 @@
             </thead>
             <tbody>
                 <?php if (empty($tickets)): ?>
-                    <tr><td colspan="7" class="text-center muted" style="padding:26px">હજી કોઈ ટિકિટ નથી. ઉપરથી નવી ટિકિટ ખોલો.</td></tr>
+                    <tr><td colspan="7" class="text-center muted" style="padding:26px">No tickets yet. Open a new ticket above.</td></tr>
                 <?php else: ?>
                     <?php foreach ($tickets as $t): ?>
                         <?php $st = (string) ($t['status'] ?? 'open'); $pr = (string) ($t['priority'] ?? 'medium'); ?>
@@ -83,7 +83,7 @@
                             <td><span class="badge badge-<?= e($priorityBadge[$pr] ?? 'muted') ?>"><?= e(ucfirst($pr)) ?></span></td>
                             <td><span class="badge badge-<?= e($statusBadge[$st] ?? 'muted') ?>"><?= e($statusLabels[$st] ?? ucfirst($st)) ?></span></td>
                             <td class="small muted"><?= e($t['last_reply_at'] ? date('d M Y, H:i', strtotime((string) $t['last_reply_at'])) : '—') ?></td>
-                            <td class="text-right"><a href="<?= e(url('client/tickets/' . $t['id'])) ?>" class="btn btn-sm btn-outline">જુઓ</a></td>
+                            <td class="text-right"><a href="<?= e(url('client/tickets/' . $t['id'])) ?>" class="btn btn-sm btn-outline">View</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

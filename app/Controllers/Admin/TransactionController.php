@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/TransactionController.php
 // -------------------------------------------------------------------
-// Admin — Transactions (વ્યવહાર). List all gateway payments, approve
+// Admin — Transactions. List all gateway payments, approve
 // pending manual / UPI (UTR) payments.
 // -------------------------------------------------------------------
 
@@ -51,13 +51,13 @@ class TransactionController extends Controller
         $txn = db()->table('transactions')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$txn) {
-            return back_with('error', 'વ્યવહાર મળ્યો નહીં');
+            return back_with('error', 'Transaction not found');
         }
         if ($txn['status'] !== 'pending') {
-            return back_with('info', 'ફક્ત pending વ્યવહાર approve થાય');
+            return back_with('info', 'Only pending transactions can be approved');
         }
         if (!in_array($txn['gateway'], ['manual', 'upi_manual', 'bank_transfer'], true)) {
-            return back_with('error', 'આ gateway માટે manual approval શક્ય નથી');
+            return back_with('error', 'Manual approval is not available for this gateway');
         }
 
         $now = date('Y-m-d H:i:s');
@@ -77,6 +77,6 @@ class TransactionController extends Controller
         }
 
         audit('transaction.approve', 'Transaction', (int) $txn['id']);
-        return back_with('success', 'વ્યવહાર approve થયો ✅');
+        return back_with('success', 'Transaction approved ✅');
     }
 }

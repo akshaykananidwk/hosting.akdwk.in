@@ -1,10 +1,10 @@
 <?php
 // FILE: /app/Services/IsolationService.php
 // -------------------------------------------------------------------
-// MODULE 5(c) — Per-site user isolation. aaPanel default માં બધી sites
-// એક જ `www` user નીચે ચાલે — shared hosting માટે ખતરનાક. આ service
-// per-site Linux user + PHP-FPM pool + disabled_functions apply કરે.
-// બધા shell commands escapeshellarg() સાથે.
+// MODULE 5(c) — Per-site user isolation. By default aaPanel runs every
+// site as the same `www` user, which is unsafe for shared hosting. This
+// service applies a per-site Linux user, PHP-FPM pool and disabled_functions.
+// Every shell command is wrapped in escapeshellarg().
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -15,8 +15,8 @@ class IsolationService
 {
     /**
      * Apply isolation for a service. Returns [ok, message].
-     * settings('isolation.enabled') OFF હોય તો skip.
-     * aaPanel PRO built-in isolation વાપરવું હોય તો
+     * Skipped when settings('isolation.enabled') is off.
+     * To use aaPanel PRO's built-in isolation instead, set
      * settings('isolation.use_aapanel_builtin')=1.
      */
     public function apply(array $service, string $phpVersion = '82'): array
@@ -25,7 +25,7 @@ class IsolationService
             return [true, 'isolation disabled in settings'];
         }
         if (!function_exists('shell_exec') || $this->isDisabled('shell_exec')) {
-            return [false, 'shell_exec disabled — panel site પર enable કરો'];
+            return [false, 'shell_exec is disabled — enable it for the panel site'];
         }
 
         $sitePath = $service['site_path'] ?? ('/www/wwwroot/' . $service['domain']);

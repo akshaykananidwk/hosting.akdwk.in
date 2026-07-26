@@ -2,8 +2,8 @@
 // FILE: /app/Services/BackupService.php
 // -------------------------------------------------------------------
 // MODULE 19 — Backup & restore. Full app ZIP + PHP-based DB dump
-// (mysqldump વગર પણ ચાલે), integrity verify, retention. Per-client
-// site backup aaPanel ToBackup API થી.
+// (works without mysqldump), integrity verify, retention. Per-client
+// site backups use the aaPanel ToBackup API.
 // -------------------------------------------------------------------
 
 namespace App\Services;

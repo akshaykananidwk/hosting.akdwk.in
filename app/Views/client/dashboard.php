@@ -2,7 +2,7 @@
 <?php $this->extend('layouts/client'); $this->set('title', 'Dashboard'); ?>
 <?php $this->section('content'); ?>
 <?php
-$u = current_user() ?? ['name' => 'ગ્રાહક'];
+$u = current_user() ?? ['name' => 'Client'];
 $statusBadge = static function (string $s): string {
     return match ($s) {
         'active'    => 'badge-success',
@@ -22,20 +22,20 @@ $usageBar = static function (int $used, int $limit, bool $unlimited = false): ar
 ?>
 
 <div class="card mb-3">
-    <h2 style="margin:0 0 4px">સ્વાગત છે, <?= e($u['name'] ?? 'ગ્રાહક') ?> 👋</h2>
-    <p class="muted" style="margin:0">તમારા હોસ્ટિંગ એકાઉન્ટનું સંક્ષિપ્ત વિવરણ નીચે છે.</p>
+    <h2 style="margin:0 0 4px">Welcome, <?= e($u['name'] ?? 'Client') ?> 👋</h2>
+    <p class="muted" style="margin:0">Here is a quick overview of your hosting account.</p>
 </div>
 
 <div class="grid cols-3 mb-3">
     <div class="stat">
         <div class="label">Active Services</div>
         <div class="value"><?= e((string) $activeCount) ?></div>
-        <a class="small" href="<?= e(url('client/services')) ?>">બધી services જુઓ →</a>
+        <a class="small" href="<?= e(url('client/services')) ?>">View all services →</a>
     </div>
     <div class="stat">
         <div class="label">Unpaid Invoices</div>
         <div class="value"><?= e((string) $unpaidCount) ?></div>
-        <div class="small muted"><?= e(money($unpaidSum)) ?> બાકી</div>
+        <div class="small muted"><?= e(money($unpaidSum)) ?> Outstanding</div>
     </div>
     <div class="stat">
         <div class="label">Open Tickets</div>
@@ -47,10 +47,10 @@ $usageBar = static function (int $used, int $limit, bool $unlimited = false): ar
 <div class="card mb-3">
     <div class="flex items-center justify-between mb-2">
         <h3 style="margin:0">🌐 My Services</h3>
-        <a class="btn btn-sm btn-outline" href="<?= e(url('client/services')) ?>">બધું જુઓ</a>
+        <a class="btn btn-sm btn-outline" href="<?= e(url('client/services')) ?>">View all</a>
     </div>
     <?php if (empty($services)): ?>
-        <p class="muted">હજી કોઈ service નથી. <a href="<?= e(url('store')) ?>">નવું hosting ઓર્ડર કરો →</a></p>
+        <p class="muted">No services yet. <a href="<?= e(url('store')) ?>">Order new hosting →</a></p>
     <?php else: ?>
         <div class="table-wrap">
             <table class="table">
@@ -97,7 +97,7 @@ $usageBar = static function (int $used, int $limit, bool $unlimited = false): ar
     <div class="card">
         <h3 style="margin:0 0 10px">🧾 Recent Invoices</h3>
         <?php if (empty($recentInvoices)): ?>
-            <p class="muted">કોઈ invoice નથી.</p>
+            <p class="muted">No invoices.</p>
         <?php else: ?>
             <div class="table-wrap">
                 <table class="table">
@@ -131,7 +131,7 @@ $usageBar = static function (int $used, int $limit, bool $unlimited = false): ar
     <div class="card">
         <h3 style="margin:0 0 10px">📢 Announcements</h3>
         <?php if (empty($announcements)): ?>
-            <p class="muted">કોઈ જાહેરાત નથી.</p>
+            <p class="muted">No announcements.</p>
         <?php else: ?>
             <?php foreach ($announcements as $a): ?>
                 <div class="mb-2" style="border-bottom:1px solid var(--border);padding-bottom:10px">

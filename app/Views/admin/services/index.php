@@ -27,7 +27,7 @@ $bar = function (int $used, int $limit): array {
     </div>
     <div class="card-body">
         <?php if (empty($rows)): ?>
-            <p class="muted">કોઈ service નથી.</p>
+            <p class="muted">No services.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
@@ -62,7 +62,7 @@ $bar = function (int $used, int $limit): array {
                                 <span class="small muted"><?= e(format_mb((int) $r['bandwidth_used_mb'])) ?> / <?= e(format_mb((int) $r['bandwidth_limit_mb'])) ?></span>
                             <?php endif; ?>
                         </td>
-                        <td><a href="<?= e(url('admin/services/' . (int) $r['id'])) ?>" class="btn btn-sm btn-outline">જુઓ</a></td>
+                        <td><a href="<?= e(url('admin/services/' . (int) $r['id'])) ?>" class="btn btn-sm btn-outline">View</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -74,10 +74,10 @@ $bar = function (int $used, int $limit): array {
             <span class="small muted">Page <?= e($current) ?> / <?= e($last) ?></span>
             <div class="flex gap-1">
                 <?php if ($current > 1): ?>
-                    <a class="btn btn-sm btn-outline" href="<?= e(url('admin/services?page=' . ($current - 1))) ?>">← પાછળ</a>
+                    <a class="btn btn-sm btn-outline" href="<?= e(url('admin/services?page=' . ($current - 1))) ?>">← Previous</a>
                 <?php endif; ?>
                 <?php if ($current < $last): ?>
-                    <a class="btn btn-sm btn-outline" href="<?= e(url('admin/services?page=' . ($current + 1))) ?>">આગળ →</a>
+                    <a class="btn btn-sm btn-outline" href="<?= e(url('admin/services?page=' . ($current + 1))) ?>">Next →</a>
                 <?php endif; ?>
             </div>
         </div>

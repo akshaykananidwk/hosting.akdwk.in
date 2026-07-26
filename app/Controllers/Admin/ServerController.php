@@ -50,14 +50,14 @@ class ServerController extends Controller
         ]);
 
         audit('server.create', 'server', $newId, ['name' => $data['name']]);
-        return redirect_route('admin/servers', 'success', 'Server ઉમેરાયો.');
+        return redirect_route('admin/servers', 'success', 'Server added.');
     }
 
     public function test(Request $request, string $id = ''): Response
     {
         $server = db()->table('servers')->where('id', (int) $id)->first();
         if (!$server) {
-            return $this->json(['ok' => false, 'error' => 'Server મળ્યો નથી.'], 404);
+            return $this->json(['ok' => false, 'error' => 'Server not found.'], 404);
         }
 
         try {
@@ -93,7 +93,7 @@ class ServerController extends Controller
     {
         $server = db()->table('servers')->where('id', (int) $id)->first();
         if (!$server) {
-            return $this->json(['ok' => false, 'error' => 'Server મળ્યો નથી.'], 404);
+            return $this->json(['ok' => false, 'error' => 'Server not found.'], 404);
         }
 
         try {
@@ -121,7 +121,7 @@ class ServerController extends Controller
             'ok' => true,
             'count' => count($sites),
             'sites' => $sites,
-            'note' => 'આ ફક્ત listing tool છે — હાલ mapping નથી થતું. પછીથી map કરી શકાશે.',
+            'note' => 'This is a listing tool only — sites are not mapped yet. You can map them later.',
         ]);
     }
 }

@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------
 // Razorpay driver (default). Order create via API + webhook/handler
 // signature verification (HMAC-SHA256). Keys `payment_gateways.config`
-// માંથી (encrypted).
+// (encrypted).
 // -------------------------------------------------------------------
 
 namespace App\Services\Gateways;

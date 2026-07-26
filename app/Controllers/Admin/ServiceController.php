@@ -46,7 +46,7 @@ class ServiceController extends Controller
         $sid = (int) $id;
         $service = db()->table('services')->where('id', $sid)->first();
         if (!$service) {
-            $this->authorize(false, 404, 'Service મળી નથી.');
+            $this->authorize(false, 404, 'Service not found.');
         }
 
         $client = db()->table('clients')->where('id', (int) $service['client_id'])->first();
@@ -94,8 +94,8 @@ class ServiceController extends Controller
         $ok = (new ProvisioningService())->suspend($sid, $reason);
         audit('service.suspend', 'service', $sid, ['reason' => $reason]);
         return $ok
-            ? back_with('success', 'Service suspend થઈ.')
-            : back_with('error', 'Suspend નિષ્ફળ થયું.');
+            ? back_with('success', 'Service suspended.')
+            : back_with('error', 'Suspend failed.');
     }
 
     public function unsuspend(Request $request, string $id = ''): Response
@@ -104,8 +104,8 @@ class ServiceController extends Controller
         $ok = (new ProvisioningService())->unsuspend($sid);
         audit('service.unsuspend', 'service', $sid);
         return $ok
-            ? back_with('success', 'Service ફરી active થઈ.')
-            : back_with('error', 'Unsuspend નિષ્ફળ થયું.');
+            ? back_with('success', 'Service reactivated.')
+            : back_with('error', 'Unsuspend failed.');
     }
 
     public function terminate(Request $request, string $id = ''): Response
@@ -114,7 +114,7 @@ class ServiceController extends Controller
         $ok = (new ProvisioningService())->terminate($sid);
         audit('service.terminate', 'service', $sid);
         return $ok
-            ? back_with('success', 'Service terminate થઈ.')
-            : back_with('error', 'Terminate નિષ્ફળ થયું.');
+            ? back_with('success', 'Service terminated.')
+            : back_with('error', 'Terminate failed.');
     }
 }

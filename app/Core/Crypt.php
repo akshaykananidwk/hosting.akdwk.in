@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Crypt.php
 // -------------------------------------------------------------------
-// AES-256-CBC encryption + HMAC-SHA256 authentication. બધા API keys,
-// passwords, tokens આનાથી encrypt થાય. Key `.env` ના APP_KEY માંથી.
+// AES-256-CBC encryption + HMAC-SHA256 authentication. All API keys,
+// passwords and tokens are encrypted with this. Key comes from APP_KEY in `.env`.
 // Format: base64( json{ iv, value, mac } ).
 // -------------------------------------------------------------------
 

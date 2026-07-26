@@ -1,7 +1,7 @@
 <?php /* FILE: /app/Views/layouts/client.php — client area shell */
 $u = current_user() ?? ['name' => 'Client']; ?>
 <!doctype html>
-<html lang="<?= e(config('app.locale', 'gu')) ?>">
+<html lang="<?= e(config('app.locale', 'en')) ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

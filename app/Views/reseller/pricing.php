@@ -83,7 +83,7 @@ $cycles = [
                     </tbody>
                 </table>
             </div>
-            <p class="muted mt-3 small">Placeholder = base price. ખાલી છોડો તો base price વપરાશે.</p>
+            <p class="muted mt-3 small">Placeholder = base price. Leave blank to use the base price.</p>
         </div>
     </div>
 </form>

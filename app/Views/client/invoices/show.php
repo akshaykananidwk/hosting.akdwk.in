@@ -66,7 +66,7 @@ $balance   = (float) $invoice['total'] - (float) $invoice['paid_amount'] - (floa
             </thead>
             <tbody>
                 <?php if (empty($items)): ?>
-                    <tr><td colspan="6" class="muted">કોઈ line item નથી.</td></tr>
+                    <tr><td colspan="6" class="muted">No line items.</td></tr>
                 <?php else: ?>
                     <?php foreach ($items as $it): ?>
                         <tr>

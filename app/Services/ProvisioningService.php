@@ -2,8 +2,8 @@
 // FILE: /app/Services/ProvisioningService.php
 // -------------------------------------------------------------------
 // MODULE 7 — Order → live site orchestration. aaPanel createSite + DB
-// + FTP + SSL + isolation + quota. દરેક step provisioning_logs માં.
-// નિષ્ફળ → rollback (બનેલી site/db/ftp delete). સફળ → WhatsApp+Email.
+// + FTP + SSL + isolation + quota. Every step is written to provisioning_logs.
+// On failure it rolls back (deletes the created site/db/ftp); on success it notifies by WhatsApp + email.
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -67,11 +67,11 @@ class ProvisioningService
     public function provision(array $service): bool
     {
         $serviceId = (int) $service['id'];
-        $this->log($serviceId, 'start', 'info', 'Provisioning શરૂ — ' . $service['domain']);
+        $this->log($serviceId, 'start', 'info', 'Provisioning started — ' . $service['domain']);
 
         $server = $this->assignServer($service['server_id'] ? (int) $service['server_id'] : null);
         if (!$server) {
-            $this->log($serviceId, 'server', 'error', 'કોઈ online server ઉપલબ્ધ નથી.');
+            $this->log($serviceId, 'server', 'error', 'No online server available.');
             $this->fail($service, 'No available server');
             return false;
         }
@@ -107,7 +107,7 @@ class ProvisioningService
                 throw new \RuntimeException('AddSite failed: ' . ($res['error'] ?? 'unknown'));
             }
             $created['site'] = true;
-            $this->log($serviceId, 'create_site', 'success', 'Site + FTP + DB બન્યાં.');
+            $this->log($serviceId, 'create_site', 'success', 'Site, FTP and database created.');
 
             // Resolve the new aaPanel site id.
             $siteId = $this->resolveSiteId($aa, $domain);
@@ -142,9 +142,9 @@ class ProvisioningService
                 $aa->forceHttps($domain);
                 $this->db->table('service_details')->where('service_id', $serviceId)
                     ->update(['ssl_status' => 'active', 'ssl_expires_at' => date('Y-m-d', time() + 89 * 86400)]);
-                $this->log($serviceId, 'ssl', 'success', 'Let\'s Encrypt SSL install થયું.');
+                $this->log($serviceId, 'ssl', 'success', 'Let\'s Encrypt SSL installed.');
             } else {
-                $this->log($serviceId, 'ssl', 'warning', 'SSL હમણાં નહીં — DNS propagate પછી retry થશે.');
+                $this->log($serviceId, 'ssl', 'warning', 'SSL not issued yet — will retry once DNS has propagated.');
             }
 
             // 4) Isolation (per-site pool + user).
@@ -192,7 +192,7 @@ class ProvisioningService
     {
         if ($created['site'] && $created['siteId']) {
             $aa->deleteSite((int) $created['siteId'], $domain);
-            $this->log($serviceId, 'rollback', 'info', 'બનેલી site/db/ftp delete કરી (rollback).');
+            $this->log($serviceId, 'rollback', 'info', 'Created site/db/ftp removed (rollback).');
         }
         $this->db->table('service_details')->where('service_id', $serviceId)->delete();
     }

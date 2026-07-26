@@ -9,21 +9,21 @@ $statusBadge = ['completed' => 'success', 'running' => 'info', 'pending' => 'war
 <div class="card">
     <div class="card-head">
         <span>💾 System Backups</span>
-        <button id="run-backup" class="btn btn-primary btn-sm">Backup હમણાં લો</button>
+        <button id="run-backup" class="btn btn-primary btn-sm">Backup Run now</button>
     </div>
     <div class="card-body">
         <div class="alert alert-info">
-            છેલ્લા <strong>10</strong> backups જ retain થાય છે (જૂના auto-delete). Backup માં આખી app files + DB dump આવે છે.
+            Last <strong>10</strong> backups are retained (older ones are auto-deleted). A backup contains all app files plus a DB dump.
         </div>
         <div id="backup-msg"></div>
 
         <?php if (empty($backups)): ?>
-            <p class="muted">હજી કોઈ backup નથી.</p>
+            <p class="muted">No backups yet.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
                 <thead>
-                    <tr><th>Filename</th><th>Type</th><th>Destination</th><th>Size</th><th>Status</th><th>સમય</th></tr>
+                    <tr><th>Filename</th><th>Type</th><th>Destination</th><th>Size</th><th>Status</th><th>Time</th></tr>
                 </thead>
                 <tbody>
                 <?php foreach ($backups as $b): ?>
@@ -55,10 +55,10 @@ $statusBadge = ['completed' => 'success', 'running' => 'info', 'pending' => 'war
     var runUrl = <?= json_encode(rtrim((string) config('app.url', ''), '/') . '/admin/backups/run') ?>;
 
     btn.addEventListener('click', function () {
-        if (!window.confirm('Full backup લેવું છે? થોડી વાર લાગી શકે.')) { return; }
+        if (!window.confirm('Full backup Run it? This may take a while.')) { return; }
         btn.disabled = true;
-        btn.textContent = 'Backup ચાલી રહ્યું…';
-        msg.innerHTML = '<div class="alert alert-info">Backup process ચાલુ છે, રાહ જુઓ…</div>';
+        btn.textContent = 'Backup Running…';
+        msg.innerHTML = '<div class="alert alert-info">Backup process In progress, please wait…</div>';
 
         var body = new FormData();
         body.append('_token', window.akc.token());
@@ -71,8 +71,8 @@ $statusBadge = ['completed' => 'success', 'running' => 'info', 'pending' => 'war
             window.location.reload();
         }).catch(function () {
             btn.disabled = false;
-            btn.textContent = 'Backup હમણાં લો';
-            msg.innerHTML = '<div class="alert alert-danger">Backup request નિષ્ફળ.</div>';
+            btn.textContent = 'Backup Run now';
+            msg.innerHTML = '<div class="alert alert-danger">Backup request failed.</div>';
         });
     });
 })();

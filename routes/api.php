@@ -1,7 +1,7 @@
 <?php
 // FILE: /routes/api.php
 // -------------------------------------------------------------------
-// REST API routes (Module 20 આને વિસ્તારશે). બધા /api/v1 prefix નીચે.
+// REST API routes (extended by Module 20). All under the /api/v1 prefix.
 // -------------------------------------------------------------------
 
 use App\Core\Response;
@@ -11,7 +11,7 @@ return function (Router $router): void {
 
     $router->group(['prefix' => '/api/v1'], function (Router $router) {
 
-        // Ping endpoint — token વગર public health.
+        // Public health ping — no token required.
         $router->get('/ping', function () {
             return Response::json(['pong' => true, 'time' => now()]);
         })->name('api.ping');

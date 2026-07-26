@@ -36,7 +36,7 @@ class UpdateController extends Controller
     public function run(Request $request, string $id = ''): Response
     {
         if (!auth()->is('super_admin')) {
-            abort(403, 'ફક્ત super_admin update ચલાવી શકે.');
+            abort(403, 'Only a super admin can run updates.');
         }
 
         $result = (new UpdateService())->runUpdate();

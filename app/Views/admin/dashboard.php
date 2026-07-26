@@ -9,7 +9,7 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
 
 <div class="grid cols-4 mb-3">
     <div class="stat">
-        <div class="label">કુલ Clients</div>
+        <div class="label">Total Clients</div>
         <div class="value"><?= e(number_format((int) $totalClients)) ?></div>
     </div>
     <div class="stat">
@@ -21,7 +21,7 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
         <div class="value"><?= e(number_format((int) $pendingProvisioning)) ?></div>
     </div>
     <div class="stat">
-        <div class="label">આજની આવક</div>
+        <div class="label">Today's Revenue</div>
         <div class="value"><?= e(money($todayRevenue)) ?></div>
     </div>
 </div>
@@ -44,11 +44,11 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
 <div class="card">
     <div class="card-head">
         <span>🖥️ Server Health</span>
-        <a href="<?= e(url('admin/servers')) ?>" class="btn btn-sm btn-outline">બધા Servers</a>
+        <a href="<?= e(url('admin/servers')) ?>" class="btn btn-sm btn-outline">All Servers</a>
     </div>
     <div class="card-body">
         <?php if (empty($servers)): ?>
-            <p class="muted">કોઈ server ઉમેરાયો નથી.</p>
+            <p class="muted">No servers added yet.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
@@ -91,12 +91,12 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
     </div>
     <div class="card-body">
         <?php if (empty($recentLogs)): ?>
-            <p class="muted">હજી કોઈ provisioning log નથી.</p>
+            <p class="muted">No provisioning logs yet.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
                 <thead>
-                    <tr><th>Domain</th><th>Step</th><th>Status</th><th>Message</th><th>સમય</th></tr>
+                    <tr><th>Domain</th><th>Step</th><th>Status</th><th>Message</th><th>Time</th></tr>
                 </thead>
                 <tbody>
                 <?php foreach ($recentLogs as $log): ?>

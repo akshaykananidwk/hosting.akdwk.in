@@ -2,8 +2,8 @@
 // FILE: /app/Services/AaPanelService.php
 // -------------------------------------------------------------------
 // ⭐ MODULE 5 — aaPanel (BT Panel) API integration.
-// Signature auth (request_time + request_token), ફરજિયાત cookie jar,
-// retries with backoff, અને દરેક call `aapanel_logs` માં log.
+// Signature auth (request_time + request_token), mandatory cookie jar,
+// retries with backoff, and every call logged to `aapanel_logs`.
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -100,8 +100,8 @@ class AaPanelService
                 CURLOPT_SSL_VERIFYHOST => $this->verifySsl ? 2 : 0,
                 CURLOPT_CONNECTTIMEOUT => $this->connectTimeout,
                 CURLOPT_TIMEOUT => $this->timeout,
-                CURLOPT_COOKIEJAR => $cookie,     // ફરજિયાત — session save
-                CURLOPT_COOKIEFILE => $cookie,    // ફરજિયાત — session send
+                CURLOPT_COOKIEJAR => $cookie,     // required — persists the session
+                CURLOPT_COOKIEFILE => $cookie,    // required — sends the session
                 CURLOPT_USERAGENT => 'AKCloud/1.0 (+https://akdwk.in)',
                 CURLOPT_FOLLOWLOCATION => false,
             ]);

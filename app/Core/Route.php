@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Route.php
 // -------------------------------------------------------------------
-// એક single route નું representation — URI pattern ને regex માં
-// convert કરી request path સાથે match કરે અને {param} values કાઢે.
+// Represents a single route: compiles the URI pattern to a regex,
+// matches it against the request path and extracts {param} values.
 // -------------------------------------------------------------------
 
 namespace App\Core;

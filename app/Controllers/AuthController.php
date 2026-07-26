@@ -31,9 +31,9 @@ class AuthController extends Controller
         $status = auth()->attempt($data['email'], $data['password']);
         if ($status !== 'ok') {
             $msg = match ($status) {
-                'locked' => 'ઘણી વખત ખોટો પ્રયત્ન — 15 મિનિટ માટે એકાઉન્ટ લોક છે.',
-                'inactive' => 'તમારું એકાઉન્ટ સક્રિય નથી. સપોર્ટનો સંપર્ક કરો.',
-                default => 'ઈમેલ અથવા પાસવર્ડ ખોટો છે.',
+                'locked' => 'Too many failed attempts — your account is locked for 15 minutes.',
+                'inactive' => 'Your account is not active. Please contact support.',
+                default => 'Incorrect email or password.',
             };
             $this->logLogin($data['email'], $status === 'locked' ? 'locked' : 'failed', $msg);
             return back_with('error', $msg);
@@ -60,7 +60,7 @@ class AuthController extends Controller
     {
         audit('logout');
         auth()->logout();
-        return redirect_route('login', 'success', 'તમે લોગઆઉટ થઈ ગયા છો.');
+        return redirect_route('login', 'success', 'You have been signed out.');
     }
 
     // -----------------------------------------------------------------
@@ -91,7 +91,7 @@ class AuthController extends Controller
             'password' => Crypt::hashPassword($data['password']),
             'type' => 'client',
             'status' => 'active',
-            'language' => config('app.locale', 'gu'),
+            'language' => config('app.locale', 'en'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -147,7 +147,7 @@ class AuthController extends Controller
             db()->table('email_queue')->insert([
                 'to_email' => $data['email'],
                 'subject' => 'Password Reset — ' . settings('general.company_name', 'AK Cloud'),
-                'body' => '<p>Reset link: <a href="' . e($link) . '">' . e($link) . '</a> (1 કલાક માન્ય)</p>',
+                'body' => '<p>Reset link: <a href="' . e($link) . '">' . e($link) . '</a> (valid for 1 hour)</p>',
                 'status' => 'pending',
                 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),
             ]);
@@ -156,7 +156,7 @@ class AuthController extends Controller
             }
         }
         // Always show success (no user enumeration).
-        return back_with('success', 'જો ઈમેલ રજિસ્ટર્ડ હશે તો reset link મોકલી દીધો છે.');
+        return back_with('success', 'If that email is registered, a reset link has been sent.');
     }
 
     public function showReset(Request $request): Response
@@ -179,14 +179,14 @@ class AuthController extends Controller
             ->where('reset_token', hash('sha256', $data['token']))
             ->first();
         if (!$user || empty($user['reset_expires_at']) || strtotime($user['reset_expires_at']) < time()) {
-            return back_with('error', 'Reset link અમાન્ય અથવા expire થઈ ગઈ છે.');
+            return back_with('error', 'This reset link is invalid or has expired.');
         }
         db()->table('users')->where('id', (int) $user['id'])->update([
             'password' => Crypt::hashPassword($data['password']),
             'reset_token' => null, 'reset_expires_at' => null,
             'failed_logins' => 0, 'locked_until' => null,
         ]);
-        return redirect_route('login', 'success', 'પાસવર્ડ બદલાઈ ગયો. હવે લોગિન કરો.');
+        return redirect_route('login', 'success', 'Your password has been changed. You can now sign in.');
     }
 
     // -----------------------------------------------------------------
@@ -219,7 +219,7 @@ class AuthController extends Controller
         }
 
         if (!$ok) {
-            return back_with('error', 'OTP કોડ ખોટો અથવા expire થયો છે.');
+            return back_with('error', 'The OTP code is incorrect or has expired.');
         }
         db()->table('users')->where('id', $userId)->update(['otp_code' => null, 'otp_expires_at' => null]);
         Session::forget('_2fa_user_id');

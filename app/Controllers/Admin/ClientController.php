@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/ClientController.php
 // -------------------------------------------------------------------
-// Admin — Clients (ગ્રાહકો). List + search, create, show (services,
+// Admin — Clients. List + search, create, show (services,
 // invoices, credit), edit, impersonate (super_admin only).
 // -------------------------------------------------------------------
 
@@ -95,7 +95,7 @@ class ClientController extends Controller
         });
 
         audit('client.create', 'Client', (int) $clientId, ['email' => $data['email']]);
-        return redirect_route('admin/clients/' . $clientId, 'success', 'ગ્રાહક બની ગયો ✅');
+        return redirect_route('admin/clients/' . $clientId, 'success', 'Client created ✅');
     }
 
     /** Client detail — services, invoices, credit, impersonate + credit form. */
@@ -105,7 +105,7 @@ class ClientController extends Controller
         $client = db()->table('clients')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$client) {
-            abort(404, 'ગ્રાહક મળ્યો નહીં');
+            abort(404, 'Client not found');
         }
 
         $services = db()->table('services')
@@ -136,7 +136,7 @@ class ClientController extends Controller
         $client = db()->table('clients')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$client) {
-            abort(404, 'ગ્રાહક મળ્યો નહીં');
+            abort(404, 'Client not found');
         }
         $now = date('Y-m-d H:i:s');
 
@@ -144,7 +144,7 @@ class ClientController extends Controller
         if ($request->filled('add_credit')) {
             $amount = round((float) $request->input('add_credit'), 2);
             if ($amount <= 0) {
-                return back_with('error', 'ક્રેડિટ રકમ ધન હોવી જોઈએ');
+                return back_with('error', 'Credit amount must be positive');
             }
             db()->transaction(function () use ($client, $amount, $request, $now) {
                 db()->table('credits')->insert([
@@ -163,7 +163,7 @@ class ClientController extends Controller
                 ]);
             });
             audit('client.credit_add', 'Client', (int) $client['id'], ['amount' => $amount]);
-            return back_with('success', money($amount) . ' ક્રેડિટ ઉમેરાઈ ✅');
+            return back_with('success', money($amount) . ' credit added ✅');
         }
 
         // --- Field-edit branch ---
@@ -190,19 +190,19 @@ class ClientController extends Controller
             'updated_at' => $now,
         ]);
         audit('client.update', 'Client', (int) $client['id']);
-        return back_with('success', 'ગ્રાહક અપડેટ થયો ✅');
+        return back_with('success', 'Client updated ✅');
     }
 
     /** Log in as this client (super_admin only). */
     public function impersonate(Request $request, string $id = ''): Response
     {
-        $this->authorize(auth()->is('super_admin'), 403, 'ફક્ત super admin');
+        $this->authorize(auth()->is('super_admin'), 403, 'Super admin only');
 
         $tenantId = auth()->tenantId() ?? 1;
         $client = db()->table('clients')
             ->where('id', (int) $id)->where('tenant_id', $tenantId)->first();
         if (!$client || empty($client['user_id'])) {
-            return back_with('error', 'આ ગ્રાહકનું login એકાઉન્ટ મળ્યું નહીં');
+            return back_with('error', 'No login account found for this client');
         }
 
         audit('impersonate', 'Client', (int) $client['id'], ['user_id' => (int) $client['user_id']]);

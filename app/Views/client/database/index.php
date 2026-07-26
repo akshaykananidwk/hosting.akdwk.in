@@ -12,7 +12,7 @@
 
 <div class="card mb-3">
     <?php if (empty($details) || empty($details['db_name'])): ?>
-        <p class="muted">આ service માટે કોઈ database સેટ થયું નથી.</p>
+        <p class="muted">No database has been set up for this service.</p>
     <?php else: ?>
         <table class="table">
             <tbody>
@@ -22,7 +22,7 @@
                 <tr><th>Host</th><td><?= e($details['db_host'] ?? '127.0.0.1') ?></td></tr>
             </tbody>
         </table>
-        <p class="small muted mt-2">⚠️ આ credentials ગોપનીય રાખો.</p>
+        <p class="small muted mt-2">⚠️ Keep these credentials confidential.</p>
     <?php endif; ?>
 </div>
 
@@ -32,13 +32,13 @@
         <?php if (!empty($adminerUrl)): ?>
             <a class="btn btn-outline" href="<?= e($adminerUrl) ?>" target="_blank" rel="noopener">Open Adminer ↗</a>
         <?php else: ?>
-            <button class="btn btn-outline" disabled>Adminer (configured નથી)</button>
+            <button class="btn btn-outline" disabled>Adminer (configured none)</button>
         <?php endif; ?>
     </div>
     <p class="small muted mt-2">
-        phpMyAdmin / Adminer માં login કરવા ઉપરના DB user અને password વાપરો.
-        Server ના phpMyAdmin URL માટે support નો સંપર્ક કરો અથવા aaPanel નું built-in
-        phpMyAdmin (<code>/phpmyadmin</code>) વાપરો.
+        phpMyAdmin / Adminer Use the DB user and password above to sign in.
+        Contact support for the phpMyAdmin URL, or use aaPanel's built-in
+        phpMyAdmin (<code>/phpmyadmin</code>) Use it.
     </p>
 </div>
 <?php $this->end(); ?>

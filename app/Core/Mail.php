@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Mail.php
 // -------------------------------------------------------------------
-// Minimal SMTP mailer (Composer/PHPMailer વગર). SSL (465) + STARTTLS
-// (587) + AUTH LOGIN support. SMTP host ન હોય તો PHP mail() fallback.
+// Minimal SMTP mailer (no Composer/PHPMailer). SSL (465) + STARTTLS
+// (587) + AUTH LOGIN support. Falls back to PHP mail() with no SMTP host.
 // -------------------------------------------------------------------
 
 namespace App\Core;

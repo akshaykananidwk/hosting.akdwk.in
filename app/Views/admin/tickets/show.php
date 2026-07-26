@@ -18,7 +18,7 @@
 ?>
 <div class="flex items-center justify-between mb-2">
     <h2 class="page-title" style="margin:0">🎫 <?= e($ticket['ticket_number']) ?></h2>
-    <a href="<?= e(url('admin/tickets')) ?>" class="btn btn-sm btn-outline">← બધી ટિકિટ</a>
+    <a href="<?= e(url('admin/tickets')) ?>" class="btn btn-sm btn-outline">← All Tickets</a>
 </div>
 
 <div class="card">
@@ -35,10 +35,10 @@
 </div>
 
 <div class="card">
-    <div class="card-head">વાતચીત (Conversation)</div>
+    <div class="card-head">Conversation</div>
     <div class="card-body">
         <?php if (empty($replies)): ?>
-            <p class="muted">કોઈ સંદેશ નથી.</p>
+            <p class="muted">No messages.</p>
         <?php else: ?>
             <?php foreach ($replies as $r): ?>
                 <?php
@@ -64,17 +64,17 @@
 </div>
 
 <div class="card">
-    <div class="card-head">જવાબ આપો (Reply)</div>
+    <div class="card-head">Reply</div>
     <div class="card-body">
         <form method="post" action="<?= e(url('admin/tickets/' . $ticket['id'] . '/reply')) ?>">
             <?= csrf_field() ?>
             <div class="form-group">
-                <label>સંદેશ (Message)</label>
+                <label>Message</label>
                 <textarea name="message" rows="5" required><?= e(old('message')) ?></textarea>
             </div>
             <div class="grid cols-2">
                 <div class="form-group">
-                    <label>Status બદલો</label>
+                    <label>Status Change</label>
                     <select name="status">
                         <?php foreach (($statuses ?? []) as $s): ?>
                             <option value="<?= e($s) ?>" <?= $s === $st ? 'selected' : '' ?>><?= e($statusLabels[$s] ?? ucfirst($s)) ?></option>
@@ -84,11 +84,11 @@
                 <div class="form-group" style="display:flex;align-items:flex-end">
                     <label style="display:flex;align-items:center;gap:8px;margin:0;font-weight:500">
                         <input type="checkbox" name="is_internal" value="1" style="width:auto">
-                        Internal note (ક્લાયન્ટને દેખાશે નહીં)
+                        Internal note (not visible to the client)
                     </label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">જવાબ મોકલો</button>
+            <button type="submit" class="btn btn-primary">Send Reply</button>
         </form>
     </div>
 </div>

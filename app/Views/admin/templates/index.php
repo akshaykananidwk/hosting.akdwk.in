@@ -1,5 +1,5 @@
 <?php // FILE: /app/Views/admin/templates/index.php — WhatsApp + Email templates
-$this->extend('layouts/admin'); $this->set('title', 'Templates (ટેમ્પ્લેટ)');
+$this->extend('layouts/admin'); $this->set('title', 'Templates (Templates)');
 $vars = function (string $body): array {
     preg_match_all('/\{([a-z0-9_]+)\}/i', $body, $m);
     return array_values(array_unique($m[1] ?? []));
@@ -30,12 +30,12 @@ $vars = function (string $body): array {
                             <?php foreach ($vlist as $vv): ?><span class="badge badge-muted mono">{<?= e($vv) ?>}</span> <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
-                    <button type="submit" class="btn btn-primary btn-sm">સેવ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
                 </form>
             </div>
         </div>
     <?php endforeach; ?>
-    <?php if (empty($whatsapp)): ?><div class="alert alert-info">કોઈ WhatsApp template નથી.</div><?php endif; ?>
+    <?php if (empty($whatsapp)): ?><div class="alert alert-info">No WhatsApp templates.</div><?php endif; ?>
 </div>
 
 <div id="pane-em" class="hidden">
@@ -61,12 +61,12 @@ $vars = function (string $body): array {
                             <?php foreach ($vlist as $vv): ?><span class="badge badge-muted mono">{<?= e($vv) ?>}</span> <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
-                    <button type="submit" class="btn btn-primary btn-sm">સેવ કરો</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
                 </form>
             </div>
         </div>
     <?php endforeach; ?>
-    <?php if (empty($email)): ?><div class="alert alert-info">કોઈ Email template નથી.</div><?php endif; ?>
+    <?php if (empty($email)): ?><div class="alert alert-info">No email templates.</div><?php endif; ?>
 </div>
 
 <?php $this->section('scripts'); ?>

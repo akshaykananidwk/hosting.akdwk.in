@@ -1,9 +1,9 @@
 <?php
 // FILE: /index.php
 // -------------------------------------------------------------------
-// Front controller — બધી requests અહીંથી પસાર થાય. Autoloader +
-// helpers load કરે, App boot કરે, session શરૂ કરે અને Router ને
-// dispatch કરે.
+// Front controller: every request passes through here. Loads the
+// autoloader and helpers, boots the App, starts the session and
+// dispatches to the Router.
 // -------------------------------------------------------------------
 
 use App\Core\App;
@@ -17,7 +17,7 @@ define('AKC_START', microtime(true));
 
 $basePath = __DIR__;
 
-// 1) Autoloader (Composer વગર).
+// 1) Autoloader (no Composer required).
 require $basePath . '/app/Core/Autoloader.php';
 Autoloader::register($basePath);
 
@@ -30,8 +30,8 @@ $app = App::boot($basePath);
 // 4) Secure session.
 Session::start();
 
-// 5) Installer gate — જો install થયું ન હોય અને installer હાજર હોય તો
-//    /install પર મોકલો (Module 1 આ installer બનાવશે).
+// 5) Installer gate: if not installed yet and the installer is present,
+//    send the visitor to /install (Module 1).
 $request = Request::capture();
 if (!$app->isInstalled()
     && is_file($basePath . '/install/index.php')

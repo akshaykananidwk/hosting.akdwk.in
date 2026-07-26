@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Event.php
 // -------------------------------------------------------------------
-// Lightweight event/hook system. Modules આનાથી એકબીજા સાથે loosely
-// coupled રહે — દા.ત. 'invoice.paid' event પર provisioning trigger.
+// Lightweight event/hook system that keeps modules loosely coupled —
+// e.g. the 'invoice.paid' event triggers provisioning.
 // -------------------------------------------------------------------
 
 namespace App\Core;

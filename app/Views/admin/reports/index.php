@@ -1,15 +1,15 @@
 <?php // FILE: /app/Views/admin/reports/index.php — revenue, MRR, plan-wise sales
-$this->extend('layouts/admin'); $this->set('title', 'Reports (રિપોર્ટ)');
+$this->extend('layouts/admin'); $this->set('title', 'Reports (Reports)');
 ?>
 
 <div class="flex justify-between items-center mb-3">
-    <h3 style="margin:0">વ્યાપાર રિપોર્ટ</h3>
-    <a href="<?= e(url('admin/reports/gst')) ?>" class="btn btn-outline btn-sm">⬇ GST CSV (આ મહિનો)</a>
+    <h3 style="margin:0">Business Report</h3>
+    <a href="<?= e(url('admin/reports/gst')) ?>" class="btn btn-outline btn-sm">⬇ GST CSV (this month)</a>
 </div>
 
 <div class="grid cols-4 mb-3">
-    <div class="stat"><div class="label">Revenue (આ મહિનો)</div><div class="value"><?= e(money($revenueMonth)) ?></div></div>
-    <div class="stat"><div class="label">Revenue (આ વર્ષ)</div><div class="value"><?= e(money($revenueYear)) ?></div></div>
+    <div class="stat"><div class="label">Revenue (this month)</div><div class="value"><?= e(money($revenueMonth)) ?></div></div>
+    <div class="stat"><div class="label">Revenue (this year)</div><div class="value"><?= e(money($revenueYear)) ?></div></div>
     <div class="stat"><div class="label">MRR (est.)</div><div class="value"><?= e(money($mrr)) ?></div></div>
     <div class="stat"><div class="label">Unpaid Dues</div><div class="value sm"><?= e(money($stats['unpaid_amount'] ?? 0)) ?></div></div>
 </div>
@@ -25,7 +25,7 @@ $this->extend('layouts/admin'); $this->set('title', 'Reports (રિપોર્
     <div class="card-head">Plan-wise Sales (active services)</div>
     <div class="card-body">
         <?php if (empty($plans)): ?>
-            <p class="muted text-center">કોઈ active service નથી.</p>
+            <p class="muted text-center">No active services.</p>
         <?php else: ?>
             <div class="table-wrap">
                 <table class="table">
@@ -48,5 +48,5 @@ $this->extend('layouts/admin'); $this->set('title', 'Reports (રિપોર્
     </div>
 </div>
 
-<p class="muted small">MRR = active services ના recurring_amount નો સરવાળો (અંદાજિત). Revenue = success transactions.</p>
+<p class="muted small">MRR = active services is the sum of recurring_amount (approximate). Revenue = successful transactions.</p>
 

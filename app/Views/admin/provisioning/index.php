@@ -11,7 +11,7 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
     <div class="card-head"><span>⚙️ Provisioning Queue</span></div>
     <div class="card-body">
         <?php if (empty($queue)): ?>
-            <p class="muted">Queue ખાલી છે.</p>
+            <p class="muted">Queue is empty.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
@@ -31,7 +31,7 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
                             <?php if ($q['status'] !== 'completed'): ?>
                             <form method="post" action="<?= e(url('admin/provisioning/' . (int) $q['id'] . '/retry')) ?>">
                                 <?= csrf_field() ?>
-                                <button class="btn btn-sm btn-outline" data-confirm="આ job ફરી ચલાવવું છે?">Retry</button>
+                                <button class="btn btn-sm btn-outline" data-confirm="Re-run this job?">Retry</button>
                             </form>
                             <?php endif; ?>
                         </td>
@@ -48,11 +48,11 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
     <div class="card-head"><span>📜 Recent Logs</span></div>
     <div class="card-body">
         <?php if (empty($logs)): ?>
-            <p class="muted">કોઈ log નથી.</p>
+            <p class="muted">No logs.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>Domain</th><th>Step</th><th>Status</th><th>Message</th><th>સમય</th></tr></thead>
+                <thead><tr><th>Domain</th><th>Step</th><th>Status</th><th>Message</th><th>Time</th></tr></thead>
                 <tbody>
                 <?php foreach ($logs as $log): ?>
                     <tr>

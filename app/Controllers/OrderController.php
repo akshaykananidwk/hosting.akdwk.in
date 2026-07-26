@@ -19,10 +19,10 @@ class OrderController extends Controller
 {
     /** Billing cycles offered in the storefront (maps to product_pricing columns). */
     protected const CYCLES = [
-        'monthly'     => 'માસિક (Monthly)',
-        'quarterly'   => 'ત્રિમાસિક (Quarterly)',
-        'half_yearly' => 'અર્ધવાર્ષિક (Half-Yearly)',
-        'yearly'      => 'વાર્ષિક (Yearly)',
+        'monthly'     => 'Monthly',
+        'quarterly'   => 'Quarterly',
+        'half_yearly' => 'Half-Yearly',
+        'yearly'      => 'Yearly',
     ];
 
     // -----------------------------------------------------------------
@@ -76,7 +76,7 @@ class OrderController extends Controller
             ->first();
 
         if (!$product) {
-            $this->authorize(false, 404, 'પ્રોડક્ટ મળી નથી (Not Found).');
+            $this->authorize(false, 404, 'Product not found.');
         }
 
         $pricing = db()->table('product_pricing')
@@ -104,7 +104,7 @@ class OrderController extends Controller
     public function place(Request $request, string $param = ''): Response
     {
         if (auth()->guest()) {
-            return redirect_route('login', 'error', 'ઓર્ડર કરવા માટે પહેલા લોગિન કરો.');
+            return redirect_route('login', 'error', 'Please sign in to place an order.');
         }
 
         $productId  = (int) $request->input('product_id');
@@ -114,10 +114,10 @@ class OrderController extends Controller
 
         // ---- Validate ----
         if ($productId <= 0 || $domain === '' || !array_key_exists($cycle, self::CYCLES)) {
-            return back_with('error', 'બધી વિગતો ભરો — પ્રોડક્ટ, ડોમેન અને બિલિંગ સાયકલ જરૂરી છે.');
+            return back_with('error', 'Please fill in all fields — product, domain and billing cycle are required.');
         }
         if (!preg_match('/^(?!-)[a-z0-9-]{1,63}(?<!-)(\.[a-z0-9-]{1,63})*\.[a-z]{2,}$/', $domain)) {
-            return back_with('error', 'માન્ય ડોમેન નાખો (દા.ત. example.com).');
+            return back_with('error', 'Enter a valid domain (e.g. example.com).');
         }
 
         $product = db()->table('products')
@@ -125,13 +125,13 @@ class OrderController extends Controller
             ->where('status', 'active')
             ->first();
         if (!$product) {
-            return back_with('error', 'પ્રોડક્ટ મળી નથી.');
+            return back_with('error', 'Product not found.');
         }
 
         $pricing = db()->table('product_pricing')->where('product_id', $productId)->first();
         $price = $pricing && $pricing[$cycle] !== null ? (float) $pricing[$cycle] : 0.0;
         if ($price <= 0) {
-            return back_with('error', 'આ બિલિંગ સાયકલ માટે કિંમત ઉપલબ્ધ નથી.');
+            return back_with('error', 'No price is available for this billing cycle.');
         }
 
         // ---- Resolve (or create) the current client ----
@@ -333,24 +333,24 @@ class OrderController extends Controller
                 'updated_at'     => $now,
             ]);
             audit('payment.upi_manual', 'invoice', (int) $inv['id'], ['utr' => $utr]);
-            return back_with('success', 'ચુકવણી verify થવા મોકલી — admin approve કરશે.');
+            return back_with('success', 'Payment submitted for verification — an admin will approve it shortly.');
         }
 
         // ---- Razorpay: create an order + open hosted checkout ----
         if ($gateway === 'razorpay') {
             $driver = (new PaymentService())->driver('razorpay');
             if (!$driver) {
-                return back_with('error', 'Razorpay gateway સક્રિય નથી — admin ને keys configure કરવા કહો.');
+                return back_with('error', 'The Razorpay gateway is not active — ask an admin to configure the API keys.');
             }
             $res = $driver->initiate($inv, $client);
             $fields = $res['fields'] ?? [];
             if (empty($res['order_ref']) || empty($fields['order_id'])) {
-                return back_with('error', 'Razorpay keys configure કરો (order બની શક્યો નહીં).');
+                return back_with('error', 'Configure the Razorpay keys (the order could not be created).');
             }
             return $this->razorpayCheckout($fields, (int) $inv['id']);
         }
 
-        return back_with('error', 'ચૂકવણી પદ્ધતિ પસંદ કરો.');
+        return back_with('error', 'Please choose a payment method.');
     }
 
     // -----------------------------------------------------------------
@@ -507,9 +507,9 @@ class OrderController extends Controller
             . 'display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:20px}'
             . '.box{max-width:420px}a{color:#2563eb}</style></head><body>'
             . '<div class="box"><h2>☁️ ' . $company . '</h2>'
-            . '<p>Razorpay ચૂકવણી પેજ ખૂલી રહ્યું છે…</p>'
-            . '<p class="muted">જો window ના ખૂલે તો <a id="retry" href="#">અહીં ક્લિક કરો</a>.</p>'
-            . '<p><a id="cancel" href="#">← પાછા ઇન્વૉઇસ પર</a></p></div>'
+            . '<p>Opening the Razorpay payment page…</p>'
+            . '<p class="muted">If the window does not open, <a id="retry" href="#">click here</a>.</p>'
+            . '<p><a id="cancel" href="#">← Back to invoice</a></p></div>'
             . '<script src="https://checkout.razorpay.com/v1/checkout.js"></script>'
             . '<script>'
             . 'var opts=' . $optsJson . ';'

@@ -1,9 +1,9 @@
-<?php $this->extend('layouts/admin'); $this->set('title', 'Server ઉમેરો'); ?>
+<?php $this->extend('layouts/admin'); $this->set('title', 'Server Add'); ?>
 <?php // FILE: /app/Views/admin/servers/create.php — add aaPanel server form ?>
 <?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="card" style="max-width:720px">
-    <div class="card-head"><span>➕ નવો aaPanel Server</span></div>
+    <div class="card-head"><span>➕ New aaPanel Server</span></div>
     <div class="card-body">
         <form method="post" action="<?= e(url('admin/servers')) ?>">
             <?= csrf_field() ?>
@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <label>Panel URL *</label>
                     <input type="text" name="panel_url" value="<?= e(old('panel_url')) ?>" required placeholder="https://1.2.3.4:8888">
-                    <div class="form-hint">aaPanel નું full URL (port સહિત).</div>
+                    <div class="form-hint">aaPanel full URL (including port).</div>
                 </div>
                 <div class="form-group">
                     <label>IP Address</label>
@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label>API Key (api_sk) *</label>
                 <input type="text" name="api_key" value="<?= e(old('api_key')) ?>" required autocomplete="off">
-                <div class="form-hint">Encrypt કરીને સુરક્ષિત રીતે store થશે.</div>
+                <div class="form-hint">Encrypt and stored securely.</div>
             </div>
 
             <div class="grid cols-2">
@@ -49,14 +49,14 @@
                 </div>
                 <div class="form-group">
                     <label>Options</label>
-                    <label class="small" style="font-weight:400"><input type="checkbox" name="auto_assign" value="1" checked style="width:auto"> Auto-assign નવા orders</label>
-                    <label class="small" style="font-weight:400"><input type="checkbox" name="verify_ssl" value="1" style="width:auto"> SSL verify (panel પર valid cert હોય તો)</label>
+                    <label class="small" style="font-weight:400"><input type="checkbox" name="auto_assign" value="1" checked style="width:auto"> Auto-assign New orders</label>
+                    <label class="small" style="font-weight:400"><input type="checkbox" name="verify_ssl" value="1" style="width:auto"> SSL verify (panel if a valid certificate is present)</label>
                 </div>
             </div>
 
             <div class="flex gap-2 mt-2">
-                <button type="submit" class="btn btn-primary">Server સેવ કરો</button>
-                <a href="<?= e(url('admin/servers')) ?>" class="btn btn-outline">રદ કરો</a>
+                <button type="submit" class="btn btn-primary">Server Save</button>
+                <a href="<?= e(url('admin/servers')) ?>" class="btn btn-outline">Cancel</a>
             </div>
         </form>
     </div>

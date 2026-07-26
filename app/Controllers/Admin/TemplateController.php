@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/TemplateController.php
 // -------------------------------------------------------------------
-// Admin — Notification templates (ટેમ્પ્લેટ). WhatsApp + Email
+// Admin — Notification templates. WhatsApp + Email
 // template editors with {variable} hints.
 // -------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ class TemplateController extends Controller
         if ($type === 'email') {
             $tpl = db()->table('email_templates')->where('id', (int) $id)->first();
             if (!$tpl) {
-                return back_with('error', 'ટેમ્પ્લેટ મળ્યું નહીં');
+                return back_with('error', 'Template not found');
             }
             db()->table('email_templates')->where('id', (int) $id)->update([
                 'subject'    => (string) $request->input('subject', $tpl['subject']),
@@ -44,7 +44,7 @@ class TemplateController extends Controller
         } else {
             $tpl = db()->table('whatsapp_templates')->where('id', (int) $id)->first();
             if (!$tpl) {
-                return back_with('error', 'ટેમ્પ્લેટ મળ્યું નહીં');
+                return back_with('error', 'Template not found');
             }
             db()->table('whatsapp_templates')->where('id', (int) $id)->update([
                 'body'       => (string) $request->input('body', $tpl['body']),
@@ -53,6 +53,6 @@ class TemplateController extends Controller
         }
 
         audit('template.update', 'Template', (int) $id, ['type' => $type]);
-        return back_with('success', 'ટેમ્પ્લેટ અપડેટ થયું ✅');
+        return back_with('success', 'Template updated ✅');
     }
 }

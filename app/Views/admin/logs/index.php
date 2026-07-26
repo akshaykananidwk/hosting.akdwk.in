@@ -24,12 +24,12 @@ $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
         </div>
 
         <?php if (empty($rows)): ?>
-            <p class="muted">આ tab માં કોઈ log નથી.</p>
+            <p class="muted">No logs in this tab.</p>
         <?php else: ?>
         <div class="table-wrap">
             <table class="table">
                 <?php if ($tab === 'aapanel'): ?>
-                    <thead><tr><th>Server</th><th>Endpoint</th><th>Method</th><th>HTTP</th><th>Status</th><th>ms</th><th>સમય</th></tr></thead>
+                    <thead><tr><th>Server</th><th>Endpoint</th><th>Method</th><th>HTTP</th><th>Status</th><th>ms</th><th>Time</th></tr></thead>
                     <tbody>
                     <?php foreach ($rows as $r): ?>
                         <tr>
@@ -44,7 +44,7 @@ $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
                     <?php endforeach; ?>
                     </tbody>
                 <?php elseif ($tab === 'cron'): ?>
-                    <thead><tr><th>Slug</th><th>Status</th><th>ms</th><th>Output</th><th>સમય</th></tr></thead>
+                    <thead><tr><th>Slug</th><th>Status</th><th>ms</th><th>Output</th><th>Time</th></tr></thead>
                     <tbody>
                     <?php foreach ($rows as $r): ?>
                         <tr>
@@ -57,7 +57,7 @@ $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
                     <?php endforeach; ?>
                     </tbody>
                 <?php elseif ($tab === 'login'): ?>
-                    <thead><tr><th>Email</th><th>IP</th><th>Status</th><th>Reason</th><th>સમય</th></tr></thead>
+                    <thead><tr><th>Email</th><th>IP</th><th>Status</th><th>Reason</th><th>Time</th></tr></thead>
                     <tbody>
                     <?php foreach ($rows as $r): ?>
                         <tr>
@@ -70,7 +70,7 @@ $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
                     <?php endforeach; ?>
                     </tbody>
                 <?php else: /* audit */ ?>
-                    <thead><tr><th>User</th><th>Action</th><th>Model</th><th>IP</th><th>સમય</th></tr></thead>
+                    <thead><tr><th>User</th><th>Action</th><th>Model</th><th>IP</th><th>Time</th></tr></thead>
                     <tbody>
                     <?php foreach ($rows as $r): ?>
                         <tr>

@@ -64,7 +64,7 @@ class ProvisioningController extends Controller
         ]);
         audit('provisioning.retry', 'provisioning_queue', $qid);
         return $affected
-            ? back_with('success', 'Job ફરી queue માં મુકાયું.')
-            : back_with('error', 'Job મળ્યું નથી.');
+            ? back_with('success', 'Job re-queued.')
+            : back_with('error', 'Job not found.');
     }
 }

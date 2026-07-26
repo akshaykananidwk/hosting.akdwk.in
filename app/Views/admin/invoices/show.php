@@ -28,7 +28,7 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
     <a href="<?= e(url('admin/invoices')) ?>" class="btn btn-outline btn-sm">‹ Invoices</a>
     <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
     <?php if (($invoice['status'] ?? '') !== 'paid' && ($invoice['status'] ?? '') !== 'cancelled'): ?>
-        <form method="post" action="<?= e(url('admin/invoices/' . $invoice['id'] . '/markpaid')) ?>" data-confirm="Paid તરીકે માર્ક કરવું છે?">
+        <form method="post" action="<?= e(url('admin/invoices/' . $invoice['id'] . '/markpaid')) ?>" data-confirm="Paid Mark as paid?">
             <?= csrf_field() ?>
             <button type="submit" class="btn btn-success btn-sm">✔ Mark Paid</button>
         </form>
@@ -69,7 +69,7 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
 
         <div class="table-wrap">
             <table class="table items">
-                <thead><tr><th>#</th><th>વર્ણન</th><th>HSN/SAC</th><th>Qty</th><th>Rate</th><th>Tax %</th><th class="text-right">Amount</th></tr></thead>
+                <thead><tr><th>#</th><th>Description</th><th>HSN/SAC</th><th>Qty</th><th>Rate</th><th>Tax %</th><th class="text-right">Amount</th></tr></thead>
                 <tbody>
                     <?php foreach ($items as $i => $it): ?>
                         <tr>
@@ -84,7 +84,7 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
                             <td class="text-right"><?= e(money($it['amount'])) ?></td>
                         </tr>
                     <?php endforeach; ?>
-                    <?php if (empty($items)): ?><tr><td colspan="7" class="text-center muted">કોઈ item નથી</td></tr><?php endif; ?>
+                    <?php if (empty($items)): ?><tr><td colspan="7" class="text-center muted">No items</td></tr><?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -102,7 +102,7 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
         </div>
 
         <?php if (!empty($invoice['notes'])): ?>
-            <div class="mt-3 small muted">નોંધ: <?= e($invoice['notes']) ?></div>
+            <div class="mt-3 small muted">Note: <?= e($invoice['notes']) ?></div>
         <?php endif; ?>
     </div>
 </div>
@@ -111,9 +111,9 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
     <div class="card-head">Transactions</div>
     <div class="card-body table-wrap">
         <table class="table">
-            <thead><tr><th>#</th><th>Gateway</th><th>Type</th><th>Amount</th><th>UTR / Ref</th><th>સ્થિતિ</th><th>Date</th></tr></thead>
+            <thead><tr><th>#</th><th>Gateway</th><th>Type</th><th>Amount</th><th>UTR / Ref</th><th>Status</th><th>Date</th></tr></thead>
             <tbody>
-                <?php if (empty($transactions)): ?><tr><td colspan="7" class="text-center muted">કોઈ transaction નથી</td></tr><?php endif; ?>
+                <?php if (empty($transactions)): ?><tr><td colspan="7" class="text-center muted">No transactions</td></tr><?php endif; ?>
                 <?php foreach ($transactions as $t): ?>
                     <tr>
                         <td><?= (int) $t['id'] ?></td>

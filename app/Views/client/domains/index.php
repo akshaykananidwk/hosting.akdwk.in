@@ -15,7 +15,7 @@ $statusBadge = static function (string $s): string {
 <div class="card">
     <h3 style="margin:0 0 12px">🌍 My Domains</h3>
     <?php if (empty($domains)): ?>
-        <p class="muted">કોઈ domain registered નથી.</p>
+        <p class="muted">No domains registered.</p>
     <?php else: ?>
         <div class="table-wrap">
             <table class="table">

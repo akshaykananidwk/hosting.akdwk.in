@@ -19,7 +19,7 @@
 ?>
 <div class="flex items-center justify-between mb-2">
     <h2 class="page-title" style="margin:0">🎫 <?= e($ticket['ticket_number']) ?></h2>
-    <a href="<?= e(url('client/tickets')) ?>" class="btn btn-sm btn-outline">← બધી ટિકિટ</a>
+    <a href="<?= e(url('client/tickets')) ?>" class="btn btn-sm btn-outline">← All Tickets</a>
 </div>
 
 <div class="card">
@@ -35,10 +35,10 @@
 </div>
 
 <div class="card">
-    <div class="card-head">વાતચીત (Conversation)</div>
+    <div class="card-head">Conversation</div>
     <div class="card-body">
         <?php if (empty($replies)): ?>
-            <p class="muted">કોઈ સંદેશ નથી.</p>
+            <p class="muted">No messages.</p>
         <?php else: ?>
             <?php foreach ($replies as $r): ?>
                 <?php
@@ -59,18 +59,18 @@
 </div>
 
 <div class="card">
-    <div class="card-head">જવાબ આપો (Reply)</div>
+    <div class="card-head">Reply</div>
     <div class="card-body">
         <?php if ($isClosed): ?>
-            <p class="muted">આ ટિકિટ બંધ છે. નવી સમસ્યા માટે નવી ટિકિટ ખોલો.</p>
+            <p class="muted">This ticket is closed. Please open a new ticket for a new issue.</p>
         <?php else: ?>
             <form method="post" action="<?= e(url('client/tickets/' . $ticket['id'] . '/reply')) ?>">
                 <?= csrf_field() ?>
                 <div class="form-group">
-                    <label>સંદેશ (Message)</label>
+                    <label>Message</label>
                     <textarea name="message" rows="5" required><?= e(old('message')) ?></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">જવાબ મોકલો</button>
+                <button type="submit" class="btn btn-primary">Send Reply</button>
             </form>
         <?php endif; ?>
     </div>

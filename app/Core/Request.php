@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Request.php
 // -------------------------------------------------------------------
-// HTTP request wrapper — $_GET/$_POST/$_SERVER/body ને એક જગ્યાએ
-// લાવે. Method spoofing, JSON body, headers, IP, AJAX detection.
+// HTTP request wrapper bringing $_GET/$_POST/$_SERVER/body together in
+// one place. Method spoofing, JSON body, headers, IP, AJAX detection.
 // -------------------------------------------------------------------
 
 namespace App\Core;

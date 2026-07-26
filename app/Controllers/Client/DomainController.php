@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Client/DomainController.php
 // -------------------------------------------------------------------
-// MODULE 10 — Client domains list. ફક્ત current client ના domains.
+// MODULE 10 — Client domains list. Only the current client's domains.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;

@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------
 // 🟢 MODULE 9 — WhatsApp integration via bulk.akdwk.in gateway.
 // Number formatting, template rendering, DB queue, rate limits, logs.
-// api_key / session_id `settings` માંથી (encrypted) — hardcode નહીં.
+// api_key / session_id come from `settings` (encrypted) — never hardcoded.
 // -------------------------------------------------------------------
 
 namespace App\Services;

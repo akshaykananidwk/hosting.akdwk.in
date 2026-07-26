@@ -2,8 +2,8 @@
 // FILE: /app/Controllers/Admin/TicketController.php
 // -------------------------------------------------------------------
 // MODULE 12 — Support Tickets (Admin/staff side).
-// બધી tickets જુએ, thread વાંચે, જવાબ આપે, status બદલે, internal
-// note ઉમેરે. Client-facing reply પર WhatsApp notification જાય.
+// View all tickets, read the thread, reply, change status and add
+// internal notes. Client-facing replies trigger a WhatsApp notification.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Admin;
@@ -70,7 +70,7 @@ class TicketController extends Controller
             ->where('tenant_id', $tenantId)
             ->first();
         if (!$ticket) {
-            abort(404, 'ટિકિટ મળી નથી (Ticket not found)');
+            abort(404, 'Ticket not found');
         }
 
         $client = !empty($ticket['client_id'])
@@ -108,7 +108,7 @@ class TicketController extends Controller
             ->where('tenant_id', $tenantId)
             ->first();
         if (!$ticket) {
-            abort(404, 'ટિકિટ મળી નથી (Ticket not found)');
+            abort(404, 'Ticket not found');
         }
 
         $data = $this->validate($request, ['message' => 'required']);
@@ -157,6 +157,6 @@ class TicketController extends Controller
             }
         }
 
-        return back_with('success', 'જવાબ મોકલાઈ ગયો.');
+        return back_with('success', 'Reply sent.');
     }
 }

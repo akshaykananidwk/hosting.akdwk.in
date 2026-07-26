@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Core/Autoloader.php
 // -------------------------------------------------------------------
-// PSR-4 style autoloader (Composer વગર). Namespace `App\` ને
-// `/app/` directory સાથે map કરે — એટલે કોઈ third-party autoloader
-// ની જરૂર નથી.
+// PSR-4 style autoloader (no Composer). Maps the `App\` namespace to
+// the `/app/` directory, so no third-party autoloader is
+// required.
 // -------------------------------------------------------------------
 
 namespace App\Core;

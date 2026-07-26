@@ -55,7 +55,7 @@ $canUp = $path !== $sitePath && str_starts_with($parent, $sitePath) && !str_cont
                 <?php endforeach; ?>
 
                 <?php if (empty($dirs) && empty($files) && !$canUp): ?>
-                    <tr><td colspan="3" class="muted">આ ફોલ્ડર ખાલી છે અથવા ઍક્સેસ મળ્યું નથી.</td></tr>
+                    <tr><td colspan="3" class="muted">This folder is empty or could not be accessed.</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
@@ -64,7 +64,7 @@ $canUp = $path !== $sitePath && str_starts_with($parent, $sitePath) && !str_cont
 
 <div class="card mt-3">
     <h3 style="margin:0 0 10px">✏️ Quick Edit / Save File</h3>
-    <p class="small muted">site_path ની અંદરની full file path આપો (દા.ત. <?= e(rtrim($sitePath, '/')) ?>/index.php) અને content સેવ કરો.</p>
+    <p class="small muted">site_path Enter the full file path inside it (e.g. <?= e(rtrim($sitePath, '/')) ?>/index.php) and save the content.</p>
     <form method="post" action="<?= e(url('client/services/' . $sid . '/files/save')) ?>">
         <?= csrf_field() ?>
         <div class="form-group">

@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------
 // MODULE 18 — GitHub auto-update. Check → backup → download zipball →
 // extract → protected-files skip → copy → migrate → cache clear →
-// version bump. કોઈ પણ step fail → AUTO ROLLBACK.
+// version bump. If any step fails -> AUTOMATIC ROLLBACK.
 // -------------------------------------------------------------------
 
 namespace App\Services;
@@ -73,11 +73,11 @@ class UpdateService
     {
         $repo = $this->repo();
         if ($repo === '') {
-            return ['available' => false, 'error' => 'Repository set નથી.'];
+            return ['available' => false, 'error' => 'No repository configured.'];
         }
         $commit = $this->apiGet("https://api.github.com/repos/{$repo}/commits/{$this->branch()}");
         if (!$commit) {
-            return ['available' => false, 'error' => 'GitHub સાથે connect ન થયું (token/repo તપાસો).'];
+            return ['available' => false, 'error' => 'Could not connect to GitHub (check the token and repository).'];
         }
         $latestSha = substr($commit['sha'] ?? '', 0, 7);
         $localSha = (string) settings('updates.current_sha', '');
@@ -115,20 +115,20 @@ class UpdateService
         try {
             // 1) Maintenance ON + preflight.
             settings()->set('general.maintenance_mode', '1');
-            $report('Maintenance mode ચાલુ', 5);
+            $report('Maintenance mode enabled', 5);
             if (disk_free_space($this->base) < 200 * 1024 * 1024) {
-                throw new \RuntimeException('પૂરતી disk જગ્યા નથી (200MB જોઈએ).');
+                throw new \RuntimeException('Not enough disk space (200MB required).');
             }
 
             // 2) Auto backup.
-            $report('Backup લેવાઈ રહ્યું છે…', 15);
+            $report('Creating backup…', 15);
             $backupPath = (new BackupService())->fullBackup('pre-update');
             if (!$backupPath) {
-                throw new \RuntimeException('Backup નિષ્ફળ — update રોકાયું.');
+                throw new \RuntimeException('Backup failed — update aborted.');
             }
 
             // 3) Download zipball.
-            $report('GitHub થી download…', 35);
+            $report('Downloading from GitHub…', 35);
             $zipFile = $this->download();
 
             // 4) Extract.
@@ -136,7 +136,7 @@ class UpdateService
             $extractDir = $this->extract($zipFile);
 
             // 5) Copy (skip protected).
-            $report('Files copy (protected files સુરક્ષિત)…', 70);
+            $report('Copying files (protected files preserved)…', 70);
             $this->copyFiles($extractDir);
 
             // 6) Migrations.
@@ -157,16 +157,16 @@ class UpdateService
 
             // 9) Maintenance OFF + health.
             settings()->set('general.maintenance_mode', '0');
-            $report('પૂર્ણ ✅', 100);
+            $report('Complete ✅', 100);
 
             // Notify admin.
             $adminPhone = settings('general.admin_phone', '');
             if ($adminPhone) {
-                (new WhatsAppService())->send((string) $adminPhone, "✅ AK Cloud update સફળ. Version: " . $this->currentVersion());
+                (new WhatsAppService())->send((string) $adminPhone, "✅ AK Cloud update successful. Version: " . $this->currentVersion());
             }
             @unlink($zipFile);
             $this->rrmdir($extractDir);
-            return ['ok' => true, 'message' => 'Update સફળ થયું.'];
+            return ['ok' => true, 'message' => 'Update completed successfully.'];
 
         } catch (\Throwable $e) {
             // AUTO ROLLBACK.
@@ -175,9 +175,9 @@ class UpdateService
             $this->recordHistory($fromVersion, $fromVersion, '', 'rolled_back', $backupPath, $e->getMessage());
             $adminPhone = settings('general.admin_phone', '');
             if ($adminPhone) {
-                (new WhatsAppService())->send((string) $adminPhone, '❌ AK Cloud update નિષ્ફળ — સિસ્ટમ સુરક્ષિત રીતે જૂના version પર પાછી આવી. ' . $e->getMessage());
+                (new WhatsAppService())->send((string) $adminPhone, '❌ AK Cloud update failed — the system was safely rolled back to the previous version. ' . $e->getMessage());
             }
-            return ['ok' => false, 'message' => 'Update નિષ્ફળ, rollback થયું: ' . $e->getMessage()];
+            return ['ok' => false, 'message' => 'Update failed and was rolled back: ' . $e->getMessage()];
         }
     }
 
@@ -201,7 +201,7 @@ class UpdateService
         curl_close($ch);
         fclose($fp);
         if (!$ok || $code >= 300) {
-            throw new \RuntimeException('Download નિષ્ફળ (HTTP ' . $code . ').');
+            throw new \RuntimeException('Download failed (HTTP ' . $code . ').');
         }
         return $tmp;
     }

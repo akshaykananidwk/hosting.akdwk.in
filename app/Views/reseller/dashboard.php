@@ -13,7 +13,7 @@ $brand = $reseller['brand_name'] ?? ($reseller['company'] ?? '');
 
 <?php if (!$reseller): ?>
     <div class="alert alert-warning" data-auto="0">
-        <?= e(__('status')) ?>: Reseller પ્રોફાઇલ હજી સક્રિય નથી. કૃપા કરી admin નો સંપર્ક કરો.
+        <?= e(__('status')) ?>: Reseller profile is not active yet. Please contact an administrator.
     </div>
 <?php endif; ?>
 

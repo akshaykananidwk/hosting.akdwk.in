@@ -74,7 +74,7 @@ $sslStatus = $details['ssl_status'] ?? 'none';
             </table>
         </div>
     </div>
-    <p class="small muted mt-2">⚠️ આ credentials ગોપનીય છે — કોઈ સાથે શેર ન કરો.</p>
+    <p class="small muted mt-2">⚠️ These credentials are confidential — do not share them with anyone.</p>
 </div>
 
 <div class="card mb-3">
@@ -84,7 +84,7 @@ $sslStatus = $details['ssl_status'] ?? 'none';
         <a class="btn btn-outline" href="<?= e(url('client/services/' . $sid . '/database')) ?>">🗄️ Database</a>
         <form method="post" action="<?= e(url('client/services/' . $sid . '/ssl')) ?>" style="display:inline">
             <?= csrf_field() ?>
-            <button type="submit" class="btn btn-success" data-confirm="SSL install queue માં ઉમેરવું?">🔒 Install SSL</button>
+            <button type="submit" class="btn btn-success" data-confirm="SSL install queue Add to?">🔒 Install SSL</button>
         </form>
     </div>
     <p class="small muted mt-2">
@@ -98,10 +98,10 @@ $sslStatus = $details['ssl_status'] ?? 'none';
     <form method="post" action="<?= e(url('client/services/' . $sid . '/password')) ?>">
         <?= csrf_field() ?>
         <div class="form-group">
-            <label>નવો પાસવર્ડ (ઓછામાં ઓછા 8 અક્ષર)</label>
+            <label>New password (minimum 8 characters)</label>
             <input type="password" name="password" minlength="8" required autocomplete="new-password">
         </div>
-        <button type="submit" class="btn btn-primary">પાસવર્ડ બદલો</button>
+        <button type="submit" class="btn btn-primary">Change Password</button>
     </form>
 </div>
 <?php $this->end(); ?>

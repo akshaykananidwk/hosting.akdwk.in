@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/DomainController.php
 // -------------------------------------------------------------------
-// Admin — Domains (ડોમેન). List with client, status, expiry.
+// Admin — Domains. List with client, status and expiry.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Admin;

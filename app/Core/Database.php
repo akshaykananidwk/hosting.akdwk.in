@@ -1,8 +1,8 @@
 <?php
 // FILE: /app/Core/Database.php
 // -------------------------------------------------------------------
-// PDO singleton + query runner. બધી queries PREPARED STATEMENTS થી
-// ચાલે (SQL injection સામે). table() → fluent QueryBuilder આપે.
+// PDO singleton + query runner. Every query runs through PREPARED
+// STATEMENTS (SQL-injection safe). table() returns a fluent QueryBuilder.
 // -------------------------------------------------------------------
 
 namespace App\Core;

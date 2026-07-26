@@ -1,7 +1,7 @@
 <?php /* FILE: /app/Views/layouts/admin.php — admin panel shell (sidebar + topbar) */
 $u = current_user() ?? ['name' => 'Admin']; ?>
 <!doctype html>
-<html lang="<?= e(config('app.locale', 'gu')) ?>">
+<html lang="<?= e(config('app.locale', 'en')) ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,7 +46,7 @@ $u = current_user() ?? ['name' => 'Admin']; ?>
             <div class="flex items-center gap-2">
                 <button class="btn btn-sm btn-outline" onclick="toggleTheme()">🌓</button>
                 <span class="avatar"><?= e(initials($u['name'] ?? 'A')) ?></span>
-                <a href="<?= e(url('logout')) ?>" class="btn btn-sm btn-outline" data-confirm="Logout કરવું છે?">↩︎ Logout</a>
+                <a href="<?= e(url('logout')) ?>" class="btn btn-sm btn-outline" data-confirm="Logout Are you sure?">↩︎ Logout</a>
             </div>
         </header>
         <main class="main">

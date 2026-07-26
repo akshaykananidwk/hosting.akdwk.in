@@ -28,14 +28,14 @@ class BackupController extends Controller
         try {
             $path = (new BackupService())->fullBackup('manual');
         } catch (\Throwable $e) {
-            return back_with('error', 'Backup નિષ્ફળ: ' . $e->getMessage());
+            return back_with('error', 'Backup failed: ' . $e->getMessage());
         }
 
         if ($path === null) {
-            return back_with('error', 'Backup નિષ્ફળ થયું (integrity/disk તપાસો).');
+            return back_with('error', 'Backup failed (check integrity and disk space).');
         }
 
         audit('backup.run', 'backup', null, ['path' => basename($path)]);
-        return back_with('success', 'Backup સફળતાપૂર્વક લેવાયું: ' . basename($path));
+        return back_with('success', 'Backup created successfully: ' . basename($path));
     }
 }

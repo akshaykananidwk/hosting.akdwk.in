@@ -4,8 +4,8 @@
 -- Full database schema + seed data  (MySQL 8 / MariaDB 10.6+)
 -- Charset: utf8mb4_unicode_ci | Engine: InnoDB
 -- ---------------------------------------------------------------------
--- ⚠️  આ file installer (Module 1) દ્વારા chunked import થાય છે.
---     દરેક statement `;` થી પૂરું થાય — importer એ delimiter પર split કરે.
+-- NOTE: imported in chunks by the installer (Module 1). Each statement
+--       ends with `;` — the importer splits on that delimiter.
 -- =====================================================================
 
 SET NAMES utf8mb4;
@@ -1414,7 +1414,7 @@ INSERT INTO `settings` (`tenant_id`,`group`,`key`,`value`,`is_encrypted`) VALUES
   (NULL,'general','timezone','Asia/Kolkata',0),
   (NULL,'general','currency','INR',0),
   (NULL,'general','currency_symbol','₹',0),
-  (NULL,'general','default_language','gu',0),
+  (NULL,'general','default_language','en',0),
   (NULL,'general','maintenance_mode','0',0),
   (NULL,'tax','gst_enabled','1',0),
   (NULL,'tax','gst_percent','18',0),
@@ -1451,32 +1451,32 @@ INSERT INTO `settings` (`tenant_id`,`group`,`key`,`value`,`is_encrypted`) VALUES
 
 -- ---- WhatsApp templates (Gujarati) — Module 9 events ---------------
 INSERT INTO `whatsapp_templates` (`tenant_id`,`slug`,`name`,`body`,`language`) VALUES
-  (NULL,'welcome','Registration Welcome','નમસ્તે {client_name} 🙏\n{company_name} માં આપનું સ્વાગત છે. તમારું એકાઉન્ટ બની ગયું છે.\nPanel: {panel_url}','gu'),
-  (NULL,'otp','OTP Verification','તમારો OTP કોડ છે: *{otp}*\nઆ કોડ ૧૦ મિનિટ માટે માન્ય છે. કોઈને શેર ન કરો.','gu'),
-  (NULL,'order_placed','Order Placed','{client_name}, તમારો ઓર્ડર મળી ગયો છે ✅\nInvoice: {invoice_no} | રકમ: ₹{amount}\nચુકવણી પછી hosting આપોઆપ ચાલુ થઈ જશે.','gu'),
-  (NULL,'invoice_generated','Invoice Generated','{client_name}, નવું ઇન્વોઇસ બન્યું છે.\nInvoice: {invoice_no} | રકમ: ₹{amount}\nDue Date: {due_date}\nચૂકવો: {panel_url}','gu'),
-  (NULL,'payment_received','Payment Received','ધન્યવાદ {client_name} 🙏\n₹{amount} ની ચુકવણી મળી ગઈ. Invoice {invoice_no} paid.','gu'),
-  (NULL,'reminder','Payment Reminder','{client_name}, યાદ અપાવવા માટે — Invoice {invoice_no} (₹{amount}) ની due date {due_date} છે. કૃપા કરી સમયસર ચૂકવો.','gu'),
-  (NULL,'overdue','Overdue Warning','⚠️ {client_name}, તમારું Invoice {invoice_no} (₹{amount}) બાકી છે. જલદી ચૂકવો નહીંતર service suspend થઈ શકે.','gu'),
-  (NULL,'suspended','Service Suspended','🔴 {client_name}, તમારી service ({domain}) suspend થઈ ગઈ છે. ચુકવણી કરી ફરી ચાલુ કરો: {panel_url}','gu'),
-  (NULL,'unsuspended','Service Unsuspended','🟢 {client_name}, તમારી service ({domain}) ફરી ચાલુ થઈ ગઈ છે. આભાર!','gu'),
-  (NULL,'hosting_ready','Hosting Ready','🎉 {client_name}, તમારી hosting તૈયાર છે!\n\n🌐 Domain: {domain}\n👤 Username: {username}\n🔑 Password: {password}\n\n📂 FTP Host: {ftp_host}\nFTP User: {ftp_user}\nFTP Pass: {ftp_pass}\n\n🗄️ DB Name: {db_name}\nDB User: {db_user}\nDB Pass: {db_pass}\n\nPanel: {panel_url}','gu'),
-  (NULL,'renewal_success','Renewal Success','✅ {client_name}, {domain} નું renewal થઈ ગયું. નવી expiry: {expiry_date}.','gu'),
-  (NULL,'expiring','Service Expiring','⏰ {client_name}, {domain} {expiry_date} ના રોજ expire થશે. Renew કરો: {panel_url}','gu'),
-  (NULL,'disk_warning','Disk Usage Warning','⚠️ {client_name}, {domain} નો disk વપરાશ {disk_used} / {disk_limit} પર પહોંચ્યો છે. કૃપા કરી જગ્યા ખાલી કરો.','gu'),
-  (NULL,'bandwidth_warning','Bandwidth Warning','⚠️ {client_name}, {domain} નો bandwidth વપરાશ મર્યાદા નજીક છે.','gu'),
-  (NULL,'ticket_opened','Ticket Opened','{client_name}, તમારી ticket #{ticket_id} બની ગઈ છે. અમારી ટીમ જલદી જવાબ આપશે.','gu'),
-  (NULL,'ticket_replied','Ticket Replied','{client_name}, તમારી ticket #{ticket_id} પર જવાબ આવ્યો છે. જુઓ: {panel_url}','gu'),
-  (NULL,'ticket_closed','Ticket Closed','{client_name}, તમારી ticket #{ticket_id} બંધ કરવામાં આવી છે. આભાર!','gu'),
-  (NULL,'ssl_installed','SSL Installed','🔒 {client_name}, {domain} પર SSL સફળતાપૂર્વક install થઈ ગયું છે.','gu'),
-  (NULL,'server_down','Server Down (Admin)','🚨 એલર્ટ: Server ડાઉન લાગે છે. તાત્કાલિક તપાસો.','gu'),
-  (NULL,'provisioning_failed','Provisioning Failed (Admin)','🚨 એલર્ટ: {domain} નું provisioning નિષ્ફળ ગયું. Manual retry જરૂરી.','gu'),
-  (NULL,'new_order_admin','New Order (Admin)','🛒 નવો ઓર્ડર: {client_name} — {plan_name} (₹{amount}).','gu'),
-  (NULL,'daily_summary','Daily Sales Summary (Admin)','📊 આજનો સારાંશ:\nનવા ઓર્ડર: {amount}\nકુલ કલેક્શન આજે નીચે dashboard પર જુઓ.','gu');
+  (NULL,'welcome','Registration Welcome','Hello {client_name} 👋\nWelcome to {company_name}! Your account is ready.\nPanel: {panel_url}','en'),
+  (NULL,'otp','OTP Verification','Your verification code is: *{otp}*\nValid for 10 minutes. Do not share it with anyone.','en'),
+  (NULL,'order_placed','Order Placed','{client_name}, we have received your order ✅\nInvoice: {invoice_no} | Amount: ₹{amount}\nYour hosting will be set up automatically once payment is confirmed.','en'),
+  (NULL,'invoice_generated','Invoice Generated','Hi {client_name}, a new invoice has been generated.\nInvoice: {invoice_no} | Amount: ₹{amount}\nDue date: {due_date}\nPay here: {panel_url}','en'),
+  (NULL,'payment_received','Payment Received','Thank you {client_name} 🙏\nWe have received your payment of ₹{amount}. Invoice {invoice_no} is now paid.','en'),
+  (NULL,'reminder','Payment Reminder','Hi {client_name}, a friendly reminder that invoice {invoice_no} (₹{amount}) is due on {due_date}. Please pay on time to avoid interruption.','en'),
+  (NULL,'overdue','Overdue Warning','⚠️ {client_name}, invoice {invoice_no} (₹{amount}) is overdue. Please pay soon to avoid suspension of your service.','en'),
+  (NULL,'suspended','Service Suspended','🔴 {client_name}, your service ({domain}) has been suspended. Please complete payment to restore it: {panel_url}','en'),
+  (NULL,'unsuspended','Service Unsuspended','🟢 {client_name}, your service ({domain}) is active again. Thank you!','en'),
+  (NULL,'hosting_ready','Hosting Ready','🎉 {client_name}, your hosting is ready!\n\n🌐 Domain: {domain}\n👤 Username: {username}\n🔑 Password: {password}\n\n📂 FTP Host: {ftp_host}\nFTP User: {ftp_user}\nFTP Password: {ftp_pass}\n\n🗄️ DB Name: {db_name}\nDB User: {db_user}\nDB Password: {db_pass}\n\nControl panel: {panel_url}','en'),
+  (NULL,'renewal_success','Renewal Success','✅ {client_name}, {domain} has been renewed successfully. New expiry date: {expiry_date}.','en'),
+  (NULL,'expiring','Service Expiring','⏰ {client_name}, {domain} expires on {expiry_date}. Renew here: {panel_url}','en'),
+  (NULL,'disk_warning','Disk Usage Warning','⚠️ {client_name}, disk usage for {domain} has reached {disk_used} of {disk_limit}. Please free up some space.','en'),
+  (NULL,'bandwidth_warning','Bandwidth Warning','⚠️ {client_name}, bandwidth usage for {domain} is close to your monthly limit.','en'),
+  (NULL,'ticket_opened','Ticket Opened','{client_name}, your support ticket #{ticket_id} has been created. Our team will respond shortly.','en'),
+  (NULL,'ticket_replied','Ticket Replied','{client_name}, there is a new reply on your ticket #{ticket_id}. View it here: {panel_url}','en'),
+  (NULL,'ticket_closed','Ticket Closed','{client_name}, your ticket #{ticket_id} has been closed. Thank you!','en'),
+  (NULL,'ssl_installed','SSL Installed','🔒 {client_name}, an SSL certificate has been installed successfully for {domain}.','en'),
+  (NULL,'server_down','Server Down (Admin)','🚨 ALERT: A server appears to be down. Please check immediately.','en'),
+  (NULL,'provisioning_failed','Provisioning Failed (Admin)','🚨 ALERT: Provisioning failed for {domain}. Manual retry required.','en'),
+  (NULL,'new_order_admin','New Order (Admin)','🛒 New order: {client_name} — {plan_name} (₹{amount}).','en'),
+  (NULL,'daily_summary','Daily Sales Summary (Admin)','📊 Daily summary:\nNew orders: {amount}\nSee the dashboard for full collection figures.','en');
 
 -- ---- Email templates (minimal defaults) -----------------------------
 INSERT INTO `email_templates` (`tenant_id`,`slug`,`name`,`subject`,`body`,`language`) VALUES
-  (NULL,'welcome','Welcome Email','{company_name} માં આપનું સ્વાગત છે','<p>નમસ્તે {client_name},</p><p>{company_name} માં આપનું સ્વાગત છે. તમારું એકાઉન્ટ તૈયાર છે.</p><p>Panel: <a href="{panel_url}">{panel_url}</a></p>','gu'),
-  (NULL,'invoice','Invoice Email','Invoice {invoice_no} — {company_name}','<p>નમસ્તે {client_name},</p><p>તમારું ઇન્વોઇસ {invoice_no} (₹{amount}) બન્યું છે. Due date: {due_date}.</p>','gu'),
-  (NULL,'hosting_ready','Hosting Ready Email','તમારી Hosting તૈયાર છે — {domain}','<p>નમસ્તે {client_name},</p><p>તમારી hosting {domain} તૈયાર છે. Login details WhatsApp પર મોકલી છે.</p>','gu'),
-  (NULL,'password_reset','Password Reset','Password Reset — {company_name}','<p>નમસ્તે {client_name},</p><p>Password reset કરવા આ link ખોલો: <a href="{panel_url}">Reset</a></p>','gu');
+  (NULL,'welcome','Welcome Email','Welcome to {company_name}','<p>Hello {client_name},</p><p>Welcome to {company_name}. Your account is ready to use.</p><p>Control panel: <a href="{panel_url}">{panel_url}</a></p>','en'),
+  (NULL,'invoice','Invoice Email','Invoice {invoice_no} — {company_name}','<p>Hello {client_name},</p><p>Your invoice {invoice_no} for ₹{amount} has been generated. Due date: {due_date}.</p>','en'),
+  (NULL,'hosting_ready','Hosting Ready Email','Your hosting is ready — {domain}','<p>Hello {client_name},</p><p>Your hosting for {domain} is ready. Login details have been sent to you on WhatsApp.</p>','en'),
+  (NULL,'password_reset','Password Reset','Password Reset — {company_name}','<p>Hello {client_name},</p><p>Click the link below to reset your password: <a href="{panel_url}">Reset password</a></p>','en');

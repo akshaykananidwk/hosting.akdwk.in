@@ -1,6 +1,6 @@
 <?php /* FILE: /app/Views/layouts/guest.php — auth/public pages layout */ ?>
 <!doctype html>
-<html lang="<?= e(config('app.locale', 'gu')) ?>">
+<html lang="<?= e(config('app.locale', 'en')) ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

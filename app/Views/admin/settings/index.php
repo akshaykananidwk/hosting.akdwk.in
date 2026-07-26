@@ -1,5 +1,5 @@
 <?php // FILE: /app/Views/admin/settings/index.php — tabbed system settings
-$this->extend('layouts/admin'); $this->set('title', 'Settings (સેટિંગ્સ)');
+$this->extend('layouts/admin'); $this->set('title', 'Settings (Settings)');
 ?>
 
 <form method="post" action="<?= e(url('admin/settings')) ?>">
@@ -27,10 +27,10 @@ $this->extend('layouts/admin'); $this->set('title', 'Settings (સેટિં�
                         <div class="form-group"<?= $type === 'textarea' ? ' style="grid-column:1/-1"' : '' ?>>
                             <label><?= e($f['label']) ?></label>
                             <?php if ($type === 'bool'): ?>
-                                <label class="small"><input type="checkbox" name="<?= e($name) ?>" value="1" <?= (string) $cur === '1' ? 'checked' : '' ?>> ચાલુ</label>
+                                <label class="small"><input type="checkbox" name="<?= e($name) ?>" value="1" <?= (string) $cur === '1' ? 'checked' : '' ?>> Enabled</label>
                             <?php elseif ($type === 'secret'): ?>
-                                <input type="password" name="<?= e($name) ?>" value="" autocomplete="new-password" placeholder="<?= ((string) $cur !== '') ? '•••••••• (set)' : 'ખાલી' ?>">
-                                <div class="form-hint">ખાલી રાખો = જૂનું જ રહેશે<?= ((string) $cur !== '') ? ' · **** સેટ છે' : '' ?></div>
+                                <input type="password" name="<?= e($name) ?>" value="" autocomplete="new-password" placeholder="<?= ((string) $cur !== '') ? '•••••••• (set)' : 'Empty' ?>">
+                                <div class="form-hint">Leave blank to keep the current value<?= ((string) $cur !== '') ? ' · **** Set' : '' ?></div>
                             <?php elseif ($type === 'select'): ?>
                                 <select name="<?= e($name) ?>">
                                     <?php foreach (($f['options'] ?? []) as $ok => $ol): ?>
@@ -51,7 +51,7 @@ $this->extend('layouts/admin'); $this->set('title', 'Settings (સેટિં�
         </div>
     <?php endforeach; ?>
 
-    <button type="submit" class="btn btn-primary">બધું સેવ કરો</button>
+    <button type="submit" class="btn btn-primary">Save All</button>
 </form>
 
 <?php $this->section('scripts'); ?>

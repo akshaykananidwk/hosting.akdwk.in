@@ -2,8 +2,8 @@
 // FILE: /app/Controllers/Client/TicketController.php
 // -------------------------------------------------------------------
 // MODULE 12 — Support Tickets (Client side).
-// Client ફક્ત પોતાની tickets જ જુએ/ખોલે (client_id match — else 403).
-// નવી ticket, thread, અને જવાબ. Public replies પર WhatsApp જાય.
+// A client can only view/open their own tickets (client_id must match, else 403).
+// New ticket, thread and replies. Public replies trigger WhatsApp.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;
@@ -132,7 +132,7 @@ class TicketController extends Controller
             ]);
         }
 
-        return redirect_route('client/tickets/' . $ticketId, 'success', 'ટિકિટ સફળતાપૂર્વક બની ગઈ.');
+        return redirect_route('client/tickets/' . $ticketId, 'success', 'Your ticket has been created.');
     }
 
     /**
@@ -149,7 +149,7 @@ class TicketController extends Controller
             ->where('tenant_id', $tenantId)
             ->first();
         if (!$ticket) {
-            abort(404, 'ટિકિટ મળી નથી (Ticket not found)');
+            abort(404, 'Ticket not found');
         }
 
         // Ownership enforcement.
@@ -189,7 +189,7 @@ class TicketController extends Controller
             ->where('tenant_id', $tenantId)
             ->first();
         if (!$ticket) {
-            abort(404, 'ટિકિટ મળી નથી (Ticket not found)');
+            abort(404, 'Ticket not found');
         }
 
         // Ownership enforcement.
@@ -217,6 +217,6 @@ class TicketController extends Controller
 
         audit('ticket.reply', 'ticket', (int) $ticket['id']);
 
-        return back_with('success', 'તમારો જવાબ મોકલાઈ ગયો.');
+        return back_with('success', 'Your reply has been sent.');
     }
 }

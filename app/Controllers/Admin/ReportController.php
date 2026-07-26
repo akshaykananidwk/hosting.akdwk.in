@@ -1,7 +1,7 @@
 <?php
 // FILE: /app/Controllers/Admin/ReportController.php
 // -------------------------------------------------------------------
-// Admin — Reports (રિપોર્ટ). Revenue (month/year), MRR, plan-wise
+// Admin — Reports. Revenue (month/year), MRR, plan-wise
 // sales, and a GSTR-1 style CSV export of paid invoices this month.
 // -------------------------------------------------------------------
 

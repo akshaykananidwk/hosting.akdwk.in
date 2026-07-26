@@ -1,9 +1,9 @@
 <?php
 // FILE: /app/Controllers/Client/FileManagerController.php
 // -------------------------------------------------------------------
-// MODULE 10 — Lightweight web file manager. aaPanel ના GetDir/
-// SaveFileBody ને proxy કરે. બધા paths service.site_path ની અંદર
-// જ રહેવા જોઈએ — બહાર જવાનો પ્રયાસ થાય તો 403.
+// MODULE 10 — Lightweight web file manager proxying aaPanel's GetDir/
+// SaveFileBody. Every path must stay inside service.site_path — any
+// attempt to escape it returns 403.
 // -------------------------------------------------------------------
 
 namespace App\Controllers\Client;
@@ -45,10 +45,10 @@ class FileManagerController extends Controller
                 $files[] = ['name' => $parts[0] ?? '', 'size' => $parts[1] ?? '', 'raw' => (string) $row];
             }
             if (!($res['status'] ?? false) && !$dirs && !$files) {
-                $error = $res['error'] ?? 'File manager સાથે connect ન થયું.';
+                $error = $res['error'] ?? 'Could not connect to the file manager.';
             }
         } else {
-            $error = 'આ service માટે server હજી assign થયું નથી.';
+            $error = 'No server has been assigned to this service yet.';
         }
 
         return $this->view('client.files.index', [
@@ -74,13 +74,13 @@ class FileManagerController extends Controller
             : null;
 
         if (!$server) {
-            return back_with('error', 'Server assign થયું નથી — ફાઇલ સેવ ન થઈ.');
+            return back_with('error', 'No server assigned — the file was not saved.');
         }
 
         AaPanelService::forServer($server)->saveFileBody($path, (string) $data['data']);
         audit('client.files.save', 'service', (int) $service['id'], ['path' => $path]);
 
-        return back_with('success', 'ફાઇલ સેવ થઈ.');
+        return back_with('success', 'File saved.');
     }
 
     // ---------------------------------------------------------------
@@ -99,7 +99,7 @@ class FileManagerController extends Controller
     private function guardPath(string $path, string $sitePath): void
     {
         $ok = $path !== '' && !str_contains($path, '..') && str_starts_with($path, $sitePath);
-        $this->authorize($ok, 403, 'આ path ની ઍક્સેસ નથી (Forbidden).');
+        $this->authorize($ok, 403, 'You do not have access to this path.');
     }
 
     private function clientId(): int

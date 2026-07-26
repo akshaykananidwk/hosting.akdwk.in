@@ -5,7 +5,7 @@
 // Templates: /app/Views/*.php  ($this = View, $data extracted).
 //   $this->extend('layouts/app');
 //   $this->section('content'); ... $this->end();
-//   layout માં: $this->yield('content');
+//   in the layout: $this->yield('content');
 // -------------------------------------------------------------------
 
 namespace App\Core;

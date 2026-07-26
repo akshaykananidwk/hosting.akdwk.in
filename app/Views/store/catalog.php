@@ -1,10 +1,10 @@
 <?php /* FILE: /app/Views/store/catalog.php — storefront product catalog */ ?>
-<?php $this->extend('layouts/guest'); $this->set('title', 'સ્ટોર — હોસ્ટિંગ પ્લાન'); ?>
+<?php $this->extend('layouts/guest'); $this->set('title', 'Store — Hosting Plans'); ?>
 <?php $this->section('content'); ?>
-<h3 class="text-center mb-3">☁️ હોસ્ટિંગ પ્લાન પસંદ કરો</h3>
+<h3 class="text-center mb-3">☁️ Choose a hosting plan</h3>
 
 <?php if (empty($groups)): ?>
-    <p class="muted text-center">હાલમાં કોઈ પ્લાન ઉપલબ્ધ નથી.</p>
+    <p class="muted text-center">No plans are available right now.</p>
 <?php else: ?>
     <?php foreach ($groups as $group): ?>
         <div class="mb-3">
@@ -14,7 +14,7 @@
             <?php endif; ?>
 
             <?php if (empty($group['products'])): ?>
-                <p class="muted small">આ ગ્રૂપમાં કોઈ પ્રોડક્ટ નથી.</p>
+                <p class="muted small">No products in this group.</p>
             <?php else: ?>
                 <?php foreach ($group['products'] as $p): ?>
                     <div class="card"><div class="card-body">
@@ -35,13 +35,13 @@
                             <div class="text-right">
                                 <?php if ($p['monthly'] !== null): ?>
                                     <div><strong><?= e(money($p['monthly'])) ?></strong></div>
-                                    <div class="muted small">/ માસ</div>
+                                    <div class="muted small">/ Month</div>
                                 <?php else: ?>
-                                    <div class="muted small">કિંમત જલ્દી</div>
+                                    <div class="muted small">Pricing coming soon</div>
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <a href="<?= e(url('store/' . $p['slug'])) ?>" class="btn btn-primary btn-block mt-2">ઓર્ડર કરો</a>
+                        <a href="<?= e(url('store/' . $p['slug'])) ?>" class="btn btn-primary btn-block mt-2">Order Now</a>
                     </div></div>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -50,6 +50,6 @@
 <?php endif; ?>
 
 <div class="text-center small mt-2">
-    <a href="<?= e(url(auth()->check() ? dashboard_path() : 'login')) ?>">← પાછા</a>
+    <a href="<?= e(url(auth()->check() ? dashboard_path() : 'login')) ?>">← Back</a>
 </div>
 <?php $this->end(); ?>

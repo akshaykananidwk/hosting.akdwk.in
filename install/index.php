@@ -1,8 +1,8 @@
 <?php
 // FILE: /install/index.php
 // -------------------------------------------------------------------
-// MODULE 1 — Installer. 10-step wizard. કોઈ file manually edit ન કરવી
-// પડે — છેલ્લે .env + config/config.php + installed.lock generate થાય.
+// MODULE 1 — Installer. 10-step wizard. No file needs to be edited by
+// hand — it generates .env + config/config.php + installed.lock at the end.
 // -------------------------------------------------------------------
 
 declare(strict_types=1);
@@ -19,7 +19,7 @@ require $base . '/app/Core/Autoloader.php';
 // Already installed guard.
 if (is_file($lock) && !isset($_GET['force'])) {
     http_response_code(403);
-    echo installer_page('Already installed', '<div class="alert alert-info">AK Cloud પહેલેથી install થયેલું છે. ફરી install કરવા <code>install/installed.lock</code> delete કરો.</div><a class="btn btn-primary" href="' . rtrim(base_url(), '/') . '/login">લોગિન પર જાઓ</a>');
+    echo installer_page('Already installed', '<div class="alert alert-info">AK Cloud is already installed. To reinstall, delete <code>install/installed.lock</code>.</div><a class="btn btn-primary" href="' . rtrim(base_url(), '/') . '/login">Go to login</a>');
     exit;
 }
 
@@ -74,7 +74,7 @@ function test_db(array $p): array
         $dsn = "mysql:host={$p['host']};port={$p['port']};dbname={$p['name']};charset=utf8mb4";
         $pdo = new PDO($dsn, $p['user'], $p['pass'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $pdo->query('SELECT 1');
-        return ['ok' => true, 'message' => '✅ ડેટાબેઝ કનેક્શન સફળ'];
+        return ['ok' => true, 'message' => '✅ Database connection successful'];
     } catch (Throwable $e) {
         return ['ok' => false, 'message' => '❌ ' . $e->getMessage()];
     }
@@ -103,12 +103,12 @@ function test_aapanel(array $p): array
     if (is_array($data) && isset($data['memTotal'])) {
         return [
             'ok' => true,
-            'message' => sprintf('✅ કનેક્ટ થયું — RAM: %s MB, CPU cores: %s',
+            'message' => sprintf('✅ Connected — RAM: %s MB, CPU cores: %s',
                 $data['memTotal'] ?? '?', is_array($data['cpuNum'] ?? null) ? count($data['cpuNum']) : ($data['cpuNum'] ?? '?')),
             'data' => $data,
         ];
     }
-    return ['ok' => false, 'message' => '❌ કનેક્ટ ન થયું: ' . ($err ?: substr((string) $resp, 0, 200))];
+    return ['ok' => false, 'message' => '❌ Could not connect: ' . ($err ?: substr((string) $resp, 0, 200))];
 }
 
 function test_whatsapp(array $p): array
@@ -116,7 +116,7 @@ function test_whatsapp(array $p): array
     $payload = [
         'api_key' => $p['api_key'],
         'number' => preg_replace('/\D/', '', $p['test_number']),
-        'message' => 'AK Cloud installer થી ટેસ્ટ મેસેજ ✅',
+        'message' => 'Test message from the AK Cloud installer ✅',
         'session_id' => $p['session_id'],
     ];
     $ch = curl_init($p['api_url']);
@@ -131,8 +131,8 @@ function test_whatsapp(array $p): array
     $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     return $code >= 200 && $code < 300
-        ? ['ok' => true, 'message' => '✅ મેસેજ મોકલ્યો — WhatsApp તપાસો', 'raw' => substr((string) $resp, 0, 200)]
-        : ['ok' => false, 'message' => '❌ નિષ્ફળ (HTTP ' . $code . ')'];
+        ? ['ok' => true, 'message' => '✅ Message sent — check WhatsApp', 'raw' => substr((string) $resp, 0, 200)]
+        : ['ok' => false, 'message' => '❌ Failed (HTTP ' . $code . ')'];
 }
 
 function handle_save(int $step): void
@@ -205,7 +205,7 @@ function import_schema(array $db): array
         $pdo = new PDO($dsn, $db['user'], $db['pass'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         $sql = file_get_contents(dirname(__DIR__) . '/install/sql/schema.sql');
         if ($sql === false) {
-            return ['ok' => false, 'message' => 'schema.sql મળ્યું નહીં.'];
+            return ['ok' => false, 'message' => 'schema.sql not found.'];
         }
         foreach (split_sql($sql) as $statement) {
             $statement = trim($statement);
@@ -277,7 +277,7 @@ function finalize(): array
         $admin = $s['admin'];
         $hash = \App\Core\Crypt::hashPassword($admin['password']);
         $stmt = $pdo->prepare('INSERT INTO users (tenant_id, role_id, name, email, mobile, password, type, status, language, created_at, updated_at)
-            VALUES (1, 1, ?, ?, ?, ?, "super_admin", "active", "gu", NOW(), NOW())');
+            VALUES (1, 1, ?, ?, ?, ?, "super_admin", "active", "en", NOW(), NOW())');
         $stmt->execute([$admin['name'], $admin['email'], $admin['mobile'], $hash]);
 
         // 2) Persist settings (encrypt secrets).
@@ -304,13 +304,13 @@ function finalize(): array
         $phpBin = detect_php_bin();
         $env = build_env($appKey, $db, $site, $aap, $wa, $phpBin);
         if (@file_put_contents($base . '/.env', $env) === false) {
-            throw new RuntimeException('.env લખી શકાયું નહીં — folder permission તપાસો.');
+            throw new RuntimeException('Could not write .env — check the folder permissions.');
         }
 
         // 5) Write config/config.php.
         $config = build_config($appKey, $db, $site);
         if (@file_put_contents($base . '/config/config.php', $config) === false) {
-            throw new RuntimeException('config/config.php લખી શકાયું નહીં.');
+            throw new RuntimeException('Could not write config/config.php.');
         }
 
         // 6) Lock the installer.
@@ -347,7 +347,7 @@ function detect_php_bin(): string
 function build_env(string $key, array $db, array $site, array $aap, array $wa, string $phpBin): string
 {
     return "APP_NAME=\"{$site['company']}\"\nAPP_ENV=production\nAPP_DEBUG=false\n"
-        . "APP_URL={$site['url']}\nAPP_TIMEZONE={$site['timezone']}\nAPP_LOCALE=gu\n"
+        . "APP_URL={$site['url']}\nAPP_TIMEZONE={$site['timezone']}\nAPP_LOCALE=en\n"
         . "APP_KEY={$key}\n\n"
         . "DB_HOST={$db['host']}\nDB_PORT={$db['port']}\nDB_NAME={$db['name']}\n"
         . "DB_USER={$db['user']}\nDB_PASS=\"{$db['pass']}\"\nDB_CHARSET=utf8mb4\n\n"
@@ -367,7 +367,7 @@ function build_config(string $key, array $db, array $site): string
 return [
     'app' => [
         'name' => '{$company}', 'env' => 'production', 'debug' => false,
-        'url' => '{$url}', 'timezone' => '{$site['timezone']}', 'locale' => 'gu',
+        'url' => '{$url}', 'timezone' => '{$site['timezone']}', 'locale' => 'en',
         'currency_symbol' => '₹', 'repository' => 'akshaykananidwk/hosting.akdwk.in',
         'key' => '{$key}',
     ],
@@ -426,10 +426,10 @@ function render_step(int $step, string $error = '', bool $done = false): string
 
 function step_welcome(): string
 {
-    return '<h2>☁️ AK Cloud માં આપનું સ્વાગત છે</h2>
-    <p class="muted">આ wizard 10 પગલાંમાં setup પૂરું કરશે — કોઈ file manually edit કરવાની જરૂર નથી.</p>
-    <ul><li>Requirement check</li><li>Database + schema</li><li>Admin એકાઉન્ટ</li><li>aaPanel + WhatsApp કનેક્શન</li><li>Cron + finish</li></ul>
-    <a class="btn btn-primary" href="?step=2">શરૂ કરો →</a>';
+    return '<h2>☁️ Welcome to AK Cloud</h2>
+    <p class="muted">This wizard completes setup in 10 steps — no file needs to be edited by hand.</p>
+    <ul><li>Requirement check</li><li>Database + schema</li><li>Admin account</li><li>aaPanel + WhatsApp connection</li><li>Cron + finish</li></ul>
+    <a class="btn btn-primary" href="?step=2">Get started →</a>';
 }
 
 function step_requirements(): string
@@ -456,12 +456,12 @@ function step_requirements(): string
     foreach ($checks as $label => $ok) {
         $allOk = $allOk && $ok;
         $icon = $ok ? '✅' : '❌';
-        $fix = $ok ? '' : '<span class="muted small">— install/enable કરો</span>';
+        $fix = $ok ? '' : '<span class="muted small">— please install/enable</span>';
         $rows .= "<tr><td>{$label}</td><td>{$icon} {$fix}</td></tr>";
     }
     $next = $allOk
-        ? '<a class="btn btn-primary" href="?step=3">આગળ →</a>'
-        : '<div class="alert alert-warning">બધી ❌ પહેલા ઠીક કરો, પછી refresh કરો.</div>';
+        ? '<a class="btn btn-primary" href="?step=3">Next →</a>'
+        : '<div class="alert alert-warning">Resolve every ❌ above, then refresh this page.</div>';
     return "<h2>Requirement Check</h2><table class='table'>{$rows}</table>{$next}";
 }
 
@@ -490,7 +490,7 @@ function step_database(): string
       </div>
       <div class="flex gap-2">
         <button type="button" class="btn btn-outline" onclick="testDb()">Test Connection</button>
-        <button type="submit" class="btn btn-primary">આગળ →</button>
+        <button type="submit" class="btn btn-primary">Next →</button>
       </div>
       <div id="dbresult" class="mt-2"></div>
     </form>
@@ -505,10 +505,10 @@ function step_schema(): string
 {
     $count = count_tables();
     return '<h2>Schema Import</h2>
-    <p class="muted">Schema.sql (64 tables + seed data) database માં import થશે.</p>
-    <p>' . ($count > 0 ? "<span class='badge badge-info'>{$count} tables પહેલેથી છે — ફરી import overwrite નહીં કરે (IF NOT EXISTS)</span>" : '') . '</p>
+    <p class="muted">schema.sql (64 tables + seed data) will be imported into the database.</p>
+    <p>' . ($count > 0 ? "<span class='badge badge-info'>{$count} tables already exist — re-importing will not overwrite them (IF NOT EXISTS)</span>" : '') . '</p>
     <form method="post" action="?step=4&action=save">
-      <button type="submit" class="btn btn-primary">Import કરો →</button>
+      <button type="submit" class="btn btn-primary">Import →</button>
     </form>';
 }
 
@@ -530,13 +530,13 @@ function count_tables(): int
 function step_admin(): string
 {
     $a = $_SESSION['install']['admin'] ?? ['name' => '', 'email' => '', 'mobile' => ''];
-    return '<h2>Super Admin એકાઉન્ટ</h2>
+    return '<h2>Super Admin Account</h2>
     <form method="post" action="?step=5&action=save">
-      <div class="form-group"><label>નામ</label><input name="name" value="' . h($a['name']) . '" required></div>
-      <div class="form-group"><label>ઈમેલ</label><input name="email" type="email" value="' . h($a['email']) . '" required></div>
-      <div class="form-group"><label>મોબાઈલ (WhatsApp alerts)</label><input name="mobile" value="' . h($a['mobile']) . '" required></div>
-      <div class="form-group"><label>પાસવર્ડ</label><input name="password" type="password" minlength="8" required></div>
-      <button type="submit" class="btn btn-primary">આગળ →</button>
+      <div class="form-group"><label>Name</label><input name="name" value="' . h($a['name']) . '" required></div>
+      <div class="form-group"><label>Email</label><input name="email" type="email" value="' . h($a['email']) . '" required></div>
+      <div class="form-group"><label>Mobile (WhatsApp alerts)</label><input name="mobile" value="' . h($a['mobile']) . '" required></div>
+      <div class="form-group"><label>Password</label><input name="password" type="password" minlength="8" required></div>
+      <button type="submit" class="btn btn-primary">Next →</button>
     </form>';
 }
 
@@ -553,21 +553,21 @@ function step_site(): string
         <div class="form-group"><label>Company GSTIN</label><input name="gstin" value="' . h($s['gstin']) . '"></div>
         <div class="form-group"><label>State Code</label><input name="state_code" value="' . h($s['state_code']) . '"></div>
       </div>
-      <button type="submit" class="btn btn-primary">આગળ →</button>
+      <button type="submit" class="btn btn-primary">Next →</button>
     </form>';
 }
 
 function step_aapanel(): string
 {
     $a = $_SESSION['install']['aapanel'] ?? ['panel_url' => 'http://127.0.0.1:35435', 'api_key' => ''];
-    return '<h2>aaPanel કનેક્શન</h2>
-    <p class="muted small">aaPanel → Settings → API Interface → ON → API Key copy → IP whitelist માં 127.0.0.1</p>
+    return '<h2>aaPanel Connection</h2>
+    <p class="muted small">aaPanel → Settings → API Interface → ON → API Key copy → add 127.0.0.1 to the IP whitelist</p>
     <form method="post" action="?step=7&action=save" id="aaform">
       <div class="form-group"><label>Panel URL</label><input name="panel_url" value="' . h($a['panel_url']) . '" required></div>
       <div class="form-group"><label>API Key (api_sk)</label><input name="api_key" value="' . h($a['api_key']) . '" required></div>
       <div class="flex gap-2">
         <button type="button" class="btn btn-outline" onclick="testAa()">Test Connection</button>
-        <button type="submit" class="btn btn-primary">આગળ →</button>
+        <button type="submit" class="btn btn-primary">Next →</button>
       </div>
       <div id="aaresult" class="mt-2"></div>
     </form>
@@ -584,10 +584,10 @@ function step_whatsapp(): string
       <div class="form-group"><label>API URL</label><input name="api_url" value="' . h($w['api_url']) . '" required></div>
       <div class="form-group"><label>API Key</label><input name="api_key" value="' . h($w['api_key']) . '" required></div>
       <div class="form-group"><label>Session ID</label><input name="session_id" value="' . h($w['session_id']) . '" required></div>
-      <div class="form-group"><label>Test number (તમારો WhatsApp)</label><input name="test_number" placeholder="9876543210"></div>
+      <div class="form-group"><label>Test number (your WhatsApp)</label><input name="test_number" placeholder="9876543210"></div>
       <div class="flex gap-2">
         <button type="button" class="btn btn-outline" onclick="testWa()">Send Test Message</button>
-        <button type="submit" class="btn btn-primary">આગળ →</button>
+        <button type="submit" class="btn btn-primary">Next →</button>
       </div>
       <div id="waresult" class="mt-2"></div>
     </form>
@@ -602,29 +602,29 @@ function step_cron(): string
     $base = dirname(__DIR__);
     $cmd = "*/5 * * * * {$php} {$base}/cron/cron.php >/dev/null 2>&1";
     return '<h2>Cron Setup</h2>
-    <p class="muted">આ line તમારા server ના crontab માં ઉમેરો (aaPanel → Cron પણ ચાલે):</p>
+    <p class="muted">Add this line to your server crontab (aaPanel → Cron works too):</p>
     <div class="card"><div class="card-body mono" id="cron" style="word-break:break-all">' . h($cmd) . '</div></div>
     <button class="btn btn-outline" onclick="navigator.clipboard.writeText(document.getElementById(\'cron\').innerText)">Copy</button>
     <form method="post" action="?step=9&action=save" style="display:inline">
-      <button type="submit" class="btn btn-primary">આગળ →</button>
+      <button type="submit" class="btn btn-primary">Next →</button>
     </form>';
 }
 
 function step_finish(): string
 {
-    return '<h2>પૂરું કરો</h2>
-    <p>હવે installer .env + config/config.php generate કરશે, super admin બનાવશે, aaPanel server register કરશે અને installer lock કરશે.</p>
+    return '<h2>Finish</h2>
+    <p>The installer will now generate .env and config/config.php, create the super admin, register the aaPanel server and lock the installer.</p>
     <form method="post" action="?step=10&action=save">
-      <button type="submit" class="btn btn-primary">Install પૂરું કરો ✅</button>
+      <button type="submit" class="btn btn-primary">Complete installation ✅</button>
     </form>';
 }
 
 function step_done(): string
 {
-    return '<h2>🎉 Install પૂરું થયું!</h2>
-    <div class="alert alert-success">AK Cloud તૈયાર છે. Installer હવે lock થઈ ગયું છે.</div>
-    <p>⚠️ સુરક્ષા માટે <code>/install</code> folder delete કરી શકો છો.</p>
-    <a class="btn btn-primary" href="' . rtrim(base_url(), '/') . '/login">Admin લોગિન →</a>';
+    return '<h2>🎉 Installation complete!</h2>
+    <div class="alert alert-success">AK Cloud is ready. The installer is now locked.</div>
+    <p>⚠️ For extra security you can delete the <code>/install</code> folder.</p>
+    <a class="btn btn-primary" href="' . rtrim(base_url(), '/') . '/login">Admin login →</a>';
 }
 
 function installer_page(string $title, string $body): string
