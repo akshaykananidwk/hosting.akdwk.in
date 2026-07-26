@@ -191,9 +191,7 @@ class Router
             throw new \RuntimeException('Invalid route action.');
         }
 
-        if (!str_contains($controller, '\\')) {
-            $controller = $this->controllerNamespace . $controller;
-        }
+        $controller = $this->resolveControllerClass($controller);
         if (!class_exists($controller)) {
             throw new HttpException(500, "Controller [{$controller}] not found.");
         }
@@ -205,6 +203,27 @@ class Router
 
         $result = $instance->{$method}($request, ...array_values($params));
         return $this->toResponse($result);
+    }
+
+    /**
+     * Resolve a route's controller string to a fully-qualified class name.
+     *
+     * Handles all three forms:
+     *   'AuthController'                    -> App\Controllers\AuthController
+     *   'Admin\DashboardController'         -> App\Controllers\Admin\DashboardController
+     *   '\App\Controllers\Admin\Foo'        -> App\Controllers\Admin\Foo  (already FQ)
+     *
+     * Public so tooling/tests can verify routes with the exact same logic
+     * the dispatcher uses (a checker that re-implements this can pass while
+     * the router fails).
+     */
+    public function resolveControllerClass(string $controller): string
+    {
+        $controller = ltrim($controller, '\\');
+        if (!str_starts_with($controller, ltrim($this->controllerNamespace, '\\'))) {
+            $controller = $this->controllerNamespace . $controller;
+        }
+        return ltrim($controller, '\\');
     }
 
     protected function toResponse(mixed $result): Response
