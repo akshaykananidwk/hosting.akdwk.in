@@ -1,0 +1,42 @@
+# =====================================================================
+# AK CLOUD — .gitignore
+# =====================================================================
+
+# Secrets & generated config (installer creates these; NEVER commit)
+/.env
+/config/config.php
+/install/installed.lock
+
+# Runtime storage
+/storage/logs/*
+/storage/cache/*
+/storage/backups/*
+/storage/temp/*
+/storage/invoices/*
+!/storage/logs/.gitkeep
+!/storage/cache/.gitkeep
+!/storage/backups/.gitkeep
+!/storage/temp/.gitkeep
+!/storage/invoices/.gitkeep
+
+# User uploads (never versioned)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# aaPanel session cookie jars
+aapanel_cookie_*.txt
+
+# Custom overrides
+/custom/*
+!/custom/.gitkeep
+
+# Dependencies (bundled libs stay; composer vendor is optional)
+/vendor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
