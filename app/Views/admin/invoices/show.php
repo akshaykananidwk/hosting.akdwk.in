@@ -8,7 +8,6 @@ $clientName = trim(($client['first_name'] ?? '') . ' ' . ($client['last_name'] ?
 $taxable = round((float) $invoice['subtotal'] - (float) $invoice['discount'], 2);
 $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger', 'refunded' => 'info'];
 ?>
-<?php $this->section('content'); ?>
 
 <style>
 @media print {
@@ -131,4 +130,3 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
     </div>
 </div>
 
-<?php $this->end(); ?>

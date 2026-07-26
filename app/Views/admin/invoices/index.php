@@ -3,7 +3,6 @@ $this->extend('layouts/admin'); $this->set('title', 'Invoices (ઇન્વો�
 $iBadge = ['paid' => 'success', 'unpaid' => 'warning', 'overdue' => 'danger', 'draft' => 'muted', 'cancelled' => 'muted', 'refunded' => 'info'];
 $statuses = ['' => 'બધા', 'unpaid' => 'Unpaid', 'paid' => 'Paid', 'overdue' => 'Overdue', 'cancelled' => 'Cancelled', 'refunded' => 'Refunded'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="card">
     <div class="card-head">
@@ -49,4 +48,3 @@ $statuses = ['' => 'બધા', 'unpaid' => 'Unpaid', 'paid' => 'Paid', 'overdue
     </div>
 </div>
 
-<?php $this->end(); ?>

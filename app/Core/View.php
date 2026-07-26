@@ -38,14 +38,24 @@ class View
      */
     public function render(string $template, array $data = []): string
     {
+        // Fresh section state per top-level render (View is a singleton).
+        $this->sections = [];
         $this->layout = null;
+
         $content = $this->renderFile($template, $data);
 
-        // If the template called extend(), wrap it in the layout.
+        // If the template called extend(), wrap it in the layout. Two content
+        // conventions are supported and both work:
+        //   (a) $this->section('content') ... $this->end();  — explicit block
+        //   (b) content written at the top level of the template   — implicit
+        // An explicit 'content' section always wins; otherwise the template's
+        // top-level output becomes the content.
         while ($this->layout !== null) {
             $layout = $this->layout;
             $this->layout = null;
-            $this->sections['content'] = $content;
+            if (!isset($this->sections['content'])) {
+                $this->sections['content'] = $content;
+            }
             $content = $this->renderFile($layout, $data);
         }
         return $content;

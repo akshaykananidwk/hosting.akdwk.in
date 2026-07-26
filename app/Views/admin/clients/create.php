@@ -1,6 +1,5 @@
 <?php // FILE: /app/Views/admin/clients/create.php — new client form
 $this->extend('layouts/admin'); $this->set('title', 'નવો ગ્રાહક'); ?>
-<?php $this->section('content'); ?>
 
 <div class="card" style="max-width:560px">
     <div class="card-head">નવો ગ્રાહક ઉમેરો</div>
@@ -28,4 +27,3 @@ $this->extend('layouts/admin'); $this->set('title', 'નવો ગ્રાહ�
     </div>
 </div>
 
-<?php $this->end(); ?>

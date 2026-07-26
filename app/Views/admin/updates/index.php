@@ -4,7 +4,7 @@
 /** @var string $currentVersion @var array $history @var bool $canRun */
 $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'warning'];
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine; only 'scripts' uses a named section. */ ?>
 
 <div class="card">
     <div class="card-head"><span>🔄 System Update</span></div>
@@ -55,7 +55,7 @@ $histBadge = ['success' => 'success', 'failed' => 'danger', 'rolled_back' => 'wa
     </div>
 </div>
 
-<?php $this->end(); ?>
+<?php /* end content */ ?>
 
 <?php $this->section('scripts'); ?>
 <script>

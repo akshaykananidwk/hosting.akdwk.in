@@ -5,7 +5,7 @@
 $serverBadge = ['online' => 'success', 'offline' => 'danger', 'maintenance' => 'warning', 'disabled' => 'muted'];
 $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', 'error' => 'danger'];
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level: this View engine feeds top-level output into yield('content'). */ ?>
 
 <div class="grid cols-4 mb-3">
     <div class="stat">
@@ -115,4 +115,3 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
     </div>
 </div>
 
-<?php $this->end(); ?>

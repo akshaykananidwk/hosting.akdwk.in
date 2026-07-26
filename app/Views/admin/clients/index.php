@@ -2,7 +2,6 @@
 $this->extend('layouts/admin'); $this->set('title', 'ગ્રાહકો (Clients)');
 $badge = ['active' => 'success', 'inactive' => 'muted', 'suspended' => 'warning', 'closed' => 'danger'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="card">
     <div class="card-head">
@@ -56,4 +55,3 @@ $badge = ['active' => 'success', 'inactive' => 'muted', 'suspended' => 'warning'
     </div>
 </div>
 
-<?php $this->end(); ?>

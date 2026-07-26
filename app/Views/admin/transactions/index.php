@@ -4,7 +4,6 @@ $tBadge = ['success' => 'success', 'pending' => 'warning', 'failed' => 'danger',
 $statuses = ['' => 'બધા', 'pending' => 'Pending', 'success' => 'Success', 'failed' => 'Failed', 'refunded' => 'Refunded'];
 $manual = ['manual', 'upi_manual', 'bank_transfer'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="card">
     <div class="card-head"><span>Transactions <span class="muted small">(કુલ <?= (int) ($meta['total'] ?? 0) ?>)</span></span></div>
@@ -59,4 +58,3 @@ $manual = ['manual', 'upi_manual', 'bank_transfer'];
     </div>
 </div>
 
-<?php $this->end(); ?>

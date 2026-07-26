@@ -11,7 +11,7 @@ $sslBadge = ['active' => 'success', 'pending' => 'warning', 'expired' => 'danger
 $clientName = $client ? trim(($client['first_name'] ?? '') . ' ' . ($client['last_name'] ?? '')) : '—';
 $sid = (int) $service['id'];
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="flex items-center justify-between mb-3">
     <div>
@@ -117,4 +117,3 @@ $sid = (int) $service['id'];
     </div>
 </div>
 
-<?php $this->end(); ?>

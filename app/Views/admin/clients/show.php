@@ -6,7 +6,6 @@ $sBadge = ['active' => 'success', 'pending' => 'warning', 'suspended' => 'danger
 $iBadge = ['paid' => 'success', 'unpaid' => 'warning', 'overdue' => 'danger', 'draft' => 'muted', 'cancelled' => 'muted', 'refunded' => 'info'];
 $post = url('admin/clients/' . $client['id']);
 ?>
-<?php $this->section('content'); ?>
 
 <div class="grid cols-4 mb-3">
     <div class="stat"><div class="label">Credit Balance</div><div class="value sm"><?= e(money($client['credit_balance'] ?? 0)) ?></div></div>
@@ -124,4 +123,3 @@ $post = url('admin/clients/' . $client['id']);
     </div>
 </div>
 
-<?php $this->end(); ?>

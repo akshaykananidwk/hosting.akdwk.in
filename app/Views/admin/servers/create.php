@@ -1,6 +1,6 @@
 <?php $this->extend('layouts/admin'); $this->set('title', 'Server ઉમેરો'); ?>
 <?php // FILE: /app/Views/admin/servers/create.php — add aaPanel server form ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="card" style="max-width:720px">
     <div class="card-head"><span>➕ નવો aaPanel Server</span></div>
@@ -62,4 +62,3 @@
     </div>
 </div>
 
-<?php $this->end(); ?>

@@ -2,7 +2,6 @@
 $this->extend('layouts/admin'); $this->set('title', 'Products (પ્રોડક્ટ)');
 $pBadge = ['active' => 'success', 'hidden' => 'muted', 'retired' => 'danger'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="flex justify-between items-center mb-3">
     <h3 style="margin:0">Products / Plans</h3>
@@ -46,4 +45,3 @@ $pBadge = ['active' => 'success', 'hidden' => 'muted', 'retired' => 'danger'];
     </div>
 <?php endforeach; ?>
 
-<?php $this->end(); ?>

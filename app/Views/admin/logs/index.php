@@ -9,7 +9,7 @@ $statusBadge = [
 ];
 $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="card">
     <div class="card-head"><span>📜 System Logs</span></div>
@@ -89,4 +89,3 @@ $badge = fn(string $s): string => 'badge-' . ($statusBadge[$s] ?? 'muted');
     </div>
 </div>
 
-<?php $this->end(); ?>

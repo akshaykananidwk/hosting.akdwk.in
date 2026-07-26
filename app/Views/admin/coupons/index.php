@@ -2,7 +2,6 @@
 $this->extend('layouts/admin'); $this->set('title', 'Coupons (કૂપન)');
 $cBadge = ['active' => 'success', 'disabled' => 'muted'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="grid cols-2">
     <div class="card">
@@ -67,4 +66,3 @@ $cBadge = ['active' => 'success', 'disabled' => 'muted'];
     </div>
 </div>
 
-<?php $this->end(); ?>

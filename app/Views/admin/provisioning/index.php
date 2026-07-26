@@ -5,7 +5,7 @@
 $qBadge = ['pending' => 'warning', 'processing' => 'info', 'completed' => 'success', 'failed' => 'danger'];
 $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', 'error' => 'danger'];
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="card">
     <div class="card-head"><span>⚙️ Provisioning Queue</span></div>
@@ -70,4 +70,3 @@ $logBadge = ['success' => 'success', 'info' => 'info', 'warning' => 'warning', '
     </div>
 </div>
 
-<?php $this->end(); ?>

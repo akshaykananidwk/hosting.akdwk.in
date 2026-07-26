@@ -18,7 +18,7 @@ $bar = function (int $used, int $limit): array {
     return [$pct, $cls];
 };
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine. */ ?>
 
 <div class="card">
     <div class="card-head">
@@ -86,4 +86,3 @@ $bar = function (int $used, int $limit): array {
     </div>
 </div>
 
-<?php $this->end(); ?>

@@ -4,7 +4,6 @@ $dBadge = ['active' => 'success', 'pending' => 'warning', 'expired' => 'danger',
 $statuses = ['' => 'બધા', 'active' => 'Active', 'pending' => 'Pending', 'expired' => 'Expired', 'cancelled' => 'Cancelled'];
 $today = date('Y-m-d');
 ?>
-<?php $this->section('content'); ?>
 
 <div class="card">
     <div class="card-head"><span>Domains <span class="muted small">(કુલ <?= (int) ($meta['total'] ?? 0) ?>)</span></span></div>
@@ -48,4 +47,3 @@ $today = date('Y-m-d');
     </div>
 </div>
 
-<?php $this->end(); ?>

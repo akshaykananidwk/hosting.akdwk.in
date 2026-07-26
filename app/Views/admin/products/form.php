@@ -5,7 +5,6 @@ $pv = fn($k) => e(old($k, ($pricing[$k] ?? '') === null ? '' : ($pricing[$k] ?? 
 $phpVers = ['74' => 'PHP 7.4', '80' => 'PHP 8.0', '81' => 'PHP 8.1', '82' => 'PHP 8.2', '83' => 'PHP 8.3'];
 $freqs = ['none' => 'None', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly'];
 ?>
-<?php $this->section('content'); ?>
 
 <div class="card" style="max-width:820px">
     <div class="card-head"><?= $isEdit ? 'Product Edit કરો' : 'નવી Product' ?></div>
@@ -93,4 +92,3 @@ $freqs = ['none' => 'None', 'daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' 
     </div>
 </div>
 
-<?php $this->end(); ?>

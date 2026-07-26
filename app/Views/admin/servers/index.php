@@ -4,7 +4,7 @@
 /** @var array $servers */
 $statusBadge = ['online' => 'success', 'offline' => 'danger', 'maintenance' => 'warning', 'disabled' => 'muted'];
 ?>
-<?php $this->section('content'); ?>
+<?php /* Content renders at top level for this View engine; only 'scripts' uses a named section. */ ?>
 
 <div class="card">
     <div class="card-head">
@@ -53,7 +53,7 @@ $statusBadge = ['online' => 'success', 'offline' => 'danger', 'maintenance' => '
     </div>
 </div>
 
-<?php $this->end(); ?>
+<?php /* end content */ ?>
 
 <?php $this->section('scripts'); ?>
 <script>
