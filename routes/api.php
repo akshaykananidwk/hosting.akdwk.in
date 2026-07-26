@@ -21,4 +21,25 @@ return function (Router $router): void {
             return Response::json($data);
         })->name('api.version');
     });
+
+    // ---- Authenticated REST API (Module 20) — token via 'api' middleware. ----
+    $router->group(['prefix' => '/api/v1', 'middleware' => ['api']], function (Router $router) {
+
+        // Clients.
+        $router->get('/clients', 'Api\\ClientController@index')->name('api.clients.index');
+        $router->get('/clients/{id}', 'Api\\ClientController@show')->name('api.clients.show');
+
+        // Services.
+        $router->get('/services', 'Api\\ServiceController@index')->name('api.services.index');
+        $router->get('/services/{id}', 'Api\\ServiceController@show')->name('api.services.show');
+        $router->post('/services/{id}/suspend', 'Api\\ServiceController@suspend')->name('api.services.suspend');
+        $router->post('/services/{id}/unsuspend', 'Api\\ServiceController@unsuspend')->name('api.services.unsuspend');
+
+        // Invoices.
+        $router->get('/invoices', 'Api\\InvoiceController@index')->name('api.invoices.index');
+        $router->get('/invoices/{id}', 'Api\\InvoiceController@show')->name('api.invoices.show');
+
+        // WhatsApp.
+        $router->post('/whatsapp/send', 'Api\\WhatsAppController@send')->name('api.whatsapp.send');
+    });
 };
