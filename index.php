@@ -43,6 +43,16 @@ if (!$app->isInstalled()
 // 6) Router + route definitions.
 $router = new Router();
 
+// Middleware aliases.
+$router->aliasMiddleware('auth', \App\Middleware\AuthMiddleware::class);
+$router->aliasMiddleware('guest', \App\Middleware\GuestMiddleware::class);
+$router->aliasMiddleware('csrf', \App\Middleware\CsrfMiddleware::class);
+$router->aliasMiddleware('admin', \App\Middleware\AdminMiddleware::class);
+$router->aliasMiddleware('reseller', \App\Middleware\ResellerMiddleware::class);
+$router->aliasMiddleware('client', \App\Middleware\ClientMiddleware::class);
+$router->aliasMiddleware('maintenance', \App\Middleware\MaintenanceMiddleware::class);
+$router->aliasMiddleware('api', \App\Middleware\ApiAuthMiddleware::class);
+
 $web = require $basePath . '/routes/web.php';
 $web($router);
 

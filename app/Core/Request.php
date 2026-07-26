@@ -18,6 +18,9 @@ class Request
     protected string $method;
     protected string $path;
 
+    /** Arbitrary per-request attributes set by middleware (e.g. api_key). */
+    public array $attributes = [];
+
     public function __construct(array $query, array $request, array $server, array $cookies, array $files, string $rawBody = '')
     {
         $this->query   = $query;
@@ -205,5 +208,15 @@ class Request
             return $this->json;
         }
         return $this->json[$key] ?? $default;
+    }
+
+    public function setAttribute(string $key, mixed $value): void
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function attribute(string $key, mixed $default = null): mixed
+    {
+        return $this->attributes[$key] ?? $default;
     }
 }
